@@ -3,8 +3,8 @@ defmodule ClassicClips.MixProject do
 
   def project do
     [
-      app: :classic_clips,
-      version: "1.2.0",
+      app: :no_dunks_pick_em,
+      version: "1.3.0",
       elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
       releases: releases(),
