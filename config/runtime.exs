@@ -12,11 +12,11 @@ if config_env() == :prod do
       For example: ecto://USER:PASS@HOST/DATABASE
       """
 
-  config :classic_clips, ClassicClips.Mailer,
+  config :no_dunks_pick_em, ClassicClips.Mailer,
     adapter: Swoosh.Adapters.Sendgrid,
     api_key: System.fetch_env!("SENDGRID_API_KEY")
 
-  config :classic_clips, ClassicClips.Repo,
+  config :no_dunks_pick_em, ClassicClips.Repo,
     ssl: false,
     url: database_url,
     socket_options: [:inet6],
@@ -31,7 +31,7 @@ if config_env() == :prod do
       You can generate one by calling: mix phx.gen.secret
       """
 
-  config :classic_clips, ClassicClipsWeb.Endpoint,
+  config :no_dunks_pick_em, ClassicClipsWeb.Endpoint,
     http: [
       ip: {0, 0, 0, 0, 0, 0, 0, 0},
       port: String.to_integer(System.get_env("PORT") || "4000"),
@@ -39,7 +39,7 @@ if config_env() == :prod do
     ],
     secret_key_base: secret_key_base
 
-  config :classic_clips, BigBeefWeb.Endpoint,
+  config :no_dunks_pick_em, BigBeefWeb.Endpoint,
     http: [
       ip: {0, 0, 0, 0, 0, 0, 0, 0},
       port: String.to_integer(System.get_env("PORT") || "4001"),
@@ -47,7 +47,7 @@ if config_env() == :prod do
     ],
     secret_key_base: secret_key_base
 
-  config :classic_clips, PickEmWeb.Endpoint,
+  config :no_dunks_pick_em, PickEmWeb.Endpoint,
     http: [
       ip: {0, 0, 0, 0, 0, 0, 0, 0},
       port: String.to_integer(System.get_env("PORT") || "4002"),
@@ -66,10 +66,10 @@ if config_env() == :prod do
   config :sentry,
     dsn: System.get_env("SENTRY_DSN")
 
-  config :classic_clips,
+  config :no_dunks_pick_em,
     service: System.get_env("SERVICE_TO_START", "all") |> String.to_atom()
 
-  config :classic_clips,
+  config :no_dunks_pick_em,
     twitter_api_token: System.fetch_env!("TWITTER_API_TOKEN"),
     twitter_api_token_secret: System.fetch_env!("TWITTER_API_TOKEN_SECRET"),
     twitter_api_pickem_consumer_key: System.fetch_env!("TWITTER_API_PICKEM_CONSUMER_KEY"),
@@ -80,10 +80,10 @@ if config_env() == :prod do
     twitter_posts_enabled: true
 end
 
-config :classic_clips,
+config :no_dunks_pick_em,
   discord_client_id: System.get_env("DISCORD_CLIENT_ID"),
   discord_client_secret: System.get_env("DISCORD_CLIENT_SECRET")
 
-config :classic_clips, ClassicClipsWeb.Endpoint, server: true
-config :classic_clips, BigBeefWeb.Endpoint, server: true
-config :classic_clips, PickEmWeb.Endpoint, server: true
+config :no_dunks_pick_em, ClassicClipsWeb.Endpoint, server: true
+config :no_dunks_pick_em, BigBeefWeb.Endpoint, server: true
+config :no_dunks_pick_em, PickEmWeb.Endpoint, server: true

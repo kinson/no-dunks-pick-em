@@ -1,6 +1,6 @@
 defmodule PickEmWeb.Endpoint do
   use Sentry.PlugCapture
-  use Phoenix.Endpoint, otp_app: :classic_clips
+  use Phoenix.Endpoint, otp_app: :no_dunks_pick_em
 
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
@@ -25,7 +25,7 @@ defmodule PickEmWeb.Endpoint do
   # when deploying your static files in production.
   plug Plug.Static,
     at: "/",
-    from: :classic_clips,
+    from: :no_dunks_pick_em,
     gzip: false,
     only: ~w(assets fonts images favicon.ico robots.txt)
 
@@ -35,7 +35,7 @@ defmodule PickEmWeb.Endpoint do
     socket "/phoenix/live_reload/socket", Phoenix.LiveReloader.Socket
     plug Phoenix.LiveReloader
     plug Phoenix.CodeReloader
-    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :classic_clips
+    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :no_dunks_pick_em
   end
 
   plug Plug.RequestId

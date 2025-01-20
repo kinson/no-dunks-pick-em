@@ -1,4 +1,4 @@
-# ClassicClips
+# No Dunks Pickem
 
 Classic clips is a platform to save, share and vote on your favorite clips from No Dunks YouTube videos.
 

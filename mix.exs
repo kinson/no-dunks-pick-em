@@ -85,7 +85,7 @@ defmodule ClassicClips.MixProject do
 
   defp releases do
     [
-      classic_clips: [
+      no_dunks_pick_em: [
         include_executables_for: [:unix],
         cookie: "9SG2s0isEqhq8rq6briNCBpnFtmXr8o7DERoZTGjBknPqIS06D6zTQ==",
         overlays: ["rel/overlays"]

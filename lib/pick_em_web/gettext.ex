@@ -20,5 +20,5 @@ defmodule PickEmWeb.Gettext do
 
   See the [Gettext Docs](https://hexdocs.pm/gettext) for detailed usage.
   """
-  use Gettext, otp_app: :classic_clips
+  use Gettext, otp_app: :no_dunks_pick_em
 end
