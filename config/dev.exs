@@ -1,7 +1,7 @@
 import Config
 
 # Configure your database
-config :classic_clips, ClassicClips.Repo,
+config :no_dunks_pick_em, ClassicClips.Repo,
   username: "postgres",
   password: "password",
   database: "classic_clips_dev",
@@ -14,49 +14,8 @@ config :classic_clips, ClassicClips.Repo,
 #
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
-config :classic_clips, ClassicClipsWeb.Endpoint,
-  http: [port: 4000],
-  debug_errors: true,
-  code_reloader: true,
-  check_origin: false,
-  watchers: [
-    # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
-    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
-    npx: [
-      "tailwindcss",
-      "--input=css/app.css",
-      "--output=../priv/static/assets/app.css",
-      "--postcss",
-      "--watch",
-      cd: Path.expand("../assets", __DIR__)
-    ],
-    sass:
-      {DartSass, :install_and_run,
-       [:default, ~w(--embed-source-map --source-map-urls=absolute --watch)]}
-  ]
 
-config :classic_clips, BigBeefWeb.Endpoint,
-  http: [port: 4001],
-  debug_errors: true,
-  code_reloader: true,
-  check_origin: false,
-  watchers: [
-    # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
-    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
-    npx: [
-      "tailwindcss",
-      "--input=css/app.css",
-      "--output=../priv/static/assets/app.css",
-      "--postcss",
-      "--watch",
-      cd: Path.expand("../assets", __DIR__)
-    ],
-    sass:
-      {DartSass, :install_and_run,
-       [:default, ~w(--embed-source-map --source-map-urls=absolute --watch)]}
-  ]
-
-config :classic_clips, PickEmWeb.Endpoint,
+config :no_dunks_pick_em, PickEmWeb.Endpoint,
   http: [port: 4002],
   debug_errors: true,
   code_reloader: true,
@@ -99,27 +58,7 @@ config :classic_clips, PickEmWeb.Endpoint,
 # different ports.
 
 # Watch static and templates for browser reloading.
-config :classic_clips, ClassicClipsWeb.Endpoint,
-  live_reload: [
-    patterns: [
-      ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
-      ~r"priv/gettext/.*(po)$",
-      ~r"lib/classic_clips_web/(live|views)/.*(ex)$",
-      ~r"lib/classic_clips_web/templates/.*(eex)$"
-    ]
-  ]
-
-config :classic_clips, BigBeefWeb.Endpoint,
-  live_reload: [
-    patterns: [
-      ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
-      ~r"priv/gettext/.*(po)$",
-      ~r"lib/big_beef_web/(live|views)/.*(ex)$",
-      ~r"lib/big_beef_web/templates/.*(eex)$"
-    ]
-  ]
-
-config :classic_clips, PickEmWeb.Endpoint,
+config :no_dunks_pick_em, PickEmWeb.Endpoint,
   live_reload: [
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
@@ -129,13 +68,9 @@ config :classic_clips, PickEmWeb.Endpoint,
     ]
   ]
 
-config :classic_clips, :classics_server_enabled, true
+config :no_dunks_pick_em, :service, :all
 
-config :classic_clips, :big_beef_url, "http://localhost:4001"
-
-config :classic_clips, :service, :all
-
-config :classic_clips,
+config :no_dunks_pick_em,
   discord_posts_enabled: false,
   discord_redirect_uri: "http://localhost:4002/auth/discord/callback"
 
