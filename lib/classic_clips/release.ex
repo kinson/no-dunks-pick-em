@@ -3,7 +3,7 @@ defmodule ClassicClips.Release do
   Used for executing DB release tasks when run in production without Mix
   installed.
   """
-  @app :classic_clips
+  @app :no_dunks_pick_em
 
   def migrate do
     load_app()
