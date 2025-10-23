@@ -14,6 +14,9 @@ kill_timeout = "5s"
 [deploy]
   release_command = "/app/bin/migrate"
 
+[processes]
+  app = "/app/bin/classic_clips start"
+
 [env]
   PHX_HOST = "no-dunks-pick-em.fly.dev"
   PORT = "4002"

@@ -21,8 +21,8 @@
       <div class="flex flex-row items-center mb-10">
         <%= date_input(f, :matchup_date,
           value: get_matchup_date(@matchup_date),
-          min: "2024-10-21",
-          max: "2025-04-20",
+          min: "2025-10-20",
+          max: "2026-04-21",
           class: "my-0 text-3xl p-1 rounded"
         ) %>
         <p class={get_status_text_class(@current_matchup)}>

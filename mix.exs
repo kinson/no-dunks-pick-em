@@ -3,7 +3,7 @@ defmodule ClassicClips.MixProject do
 
   def project do
     [
-      app: :no_dunks_pick_em,
+      app: :classic_clips,
       version: "1.3.0",
       elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -87,7 +87,8 @@ defmodule ClassicClips.MixProject do
     [
       classic_clips: [
         include_executables_for: [:unix],
-        cookie: "9SG2s0isEqhq8rq6briNCBpnFtmXr8o7DERoZTGjBknPqIS06D6zTQ=="
+        cookie: "9SG2s0isEqhq8rq6briNCBpnFtmXr8o7DERoZTGjBknPqIS06D6zTQ==",
+        overlays: ["rel/overlays"]
       ]
     ]
   end

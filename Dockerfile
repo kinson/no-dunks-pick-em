@@ -86,7 +86,7 @@ COPY --from=builder --chown=nobody:root /app/_build/prod/rel/classic_clips ./
 
 USER nobody
 
-CMD ["/app/bin/server"]
+CMD ["/app/bin/classic_clips", "start"]
 
 # Appended by flyctl
 ENV ECTO_IPV6 true
