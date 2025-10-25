@@ -60,7 +60,7 @@ if config_env() == :prod do
     api_key: System.fetch_env!("LOGFLARE_API_KEY")
 
   config :new_relic_agent,
-    app_name: "classic-clips",
+    app_name: "no-dunks-pick-em",
     license_key: System.fetch_env!("NEW_RELIC_LICENSE_KEY")
 
   config :sentry,
@@ -84,6 +84,4 @@ config :no_dunks_pick_em,
   discord_client_id: System.get_env("DISCORD_CLIENT_ID"),
   discord_client_secret: System.get_env("DISCORD_CLIENT_SECRET")
 
-config :no_dunks_pick_em, ClassicClipsWeb.Endpoint, server: true
-config :no_dunks_pick_em, BigBeefWeb.Endpoint, server: true
 config :no_dunks_pick_em, PickEmWeb.Endpoint, server: true
