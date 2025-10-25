@@ -3,11 +3,11 @@
     Account Info
   </p>
 
-  <%= live_component(PickEmWeb.PickEmLive.AccountInfoComponent,
-    id: "account-info-component",
-    socket: @socket,
-    user: @user
-  ) %>
+  <.live_component
+    module={PickEmWeb.PickEmLive.AccountInfoComponent}
+    id="account-info-component"
+    user={@user}
+  />
 
   <p class="text-nd-pink mb-6 mt-10 ml-10 md:ml-20 font-open-sans font-bold text-4xl">
     Account Settings

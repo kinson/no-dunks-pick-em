@@ -44,9 +44,7 @@ defmodule ClassicClipsWeb do
 
   def live_view do
     quote do
-      use Phoenix.LiveView,
-        layout: {ClassicClipsWeb.LayoutView, :live},
-        namespace: ClassicClipsWeb
+      use Phoenix.LiveView
 
       unquote(view_helpers())
     end

@@ -3,11 +3,10 @@ defmodule PickEmWeb.PickEmLive.NotificationComponent do
 
   alias Phoenix.LiveView.JS
 
-  def render(assigns) do
-    assigns =
-      assign_new(assigns, :message, fn -> "Hmmm something is not quite right" end)
-      |> assign_new(:type, fn -> :success end)
+  attr :message, :string, default: "Hmmm something is not quite right"
+  attr :type, :atom, default: :success
 
+  def render(assigns) do
     ~H"""
     <div
       class="w-screen h-max transition-all flex justify-center invisible z-10 h-0 bottom-0 fixed"

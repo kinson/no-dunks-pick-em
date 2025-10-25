@@ -14,7 +14,7 @@ defmodule PickEmWeb.PickEmLive.Profile do
     theme = Theme.get_theme_from_session(session)
 
     if is_nil(user) do
-      {:ok, push_redirect(socket, to: "/")}
+      {:ok, push_navigate(socket, to: "/")}
     else
       {:ok,
        socket

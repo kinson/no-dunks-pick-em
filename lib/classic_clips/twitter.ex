@@ -24,7 +24,7 @@ defmodule ClassicClips.Twitter do
       Authorization: get_auth_header()
     ]
 
-    case NewRelic.Instrumented.HTTPoison.post(url, Jason.encode!(%{text: text}), headers) do
+    case HTTPoison.post(url, Jason.encode!(%{text: text}), headers) do
       {:ok, %HTTPoison.Response{body: body}} ->
         Jason.decode!(body)
 

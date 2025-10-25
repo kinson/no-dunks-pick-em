@@ -6,7 +6,7 @@ defmodule PickEmWeb.Router do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_live_flash
-    plug :put_root_layout, {PickEmWeb.LayoutView, :root}
+    plug :put_root_layout, html: {PickEmWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :record
@@ -24,12 +24,14 @@ defmodule PickEmWeb.Router do
     post "/auth/logout", GoogleAuthController, :logout
     post "/theme", ThemeController, :create
 
-    live "/", PickEmLive.Index, :index
-    live "/leaders", PickEmLive.Leaders, :leaders
-    live "/profile", PickEmLive.Profile, :profile
-    live "/settings", PickEmLive.Settings, :settings
-    live "/secaucus", PickEmLive.Secaucus, :secaucus
-    live "/matchup-hero", PickEmLive.MatchupHero, :matchup_hero
+    live_session :default, layout: {PickEmWeb.LayoutView, :live} do
+      live "/", PickEmLive.Index, :index
+      live "/leaders", PickEmLive.Leaders, :leaders
+      live "/profile", PickEmLive.Profile, :profile
+      live "/settings", PickEmLive.Settings, :settings
+      live "/secaucus", PickEmLive.Secaucus, :secaucus
+      live "/matchup-hero", PickEmLive.MatchupHero, :matchup_hero
+    end
   end
 
   if Mix.env() == :dev do

@@ -49,7 +49,7 @@ defmodule PickEmWeb.PickEmLive.Secaucus do
 
       _ ->
         {:ok,
-         push_redirect(socket,
+         push_navigate(socket,
            to: Routes.pick_em_index_path(socket, :index)
          )}
     end

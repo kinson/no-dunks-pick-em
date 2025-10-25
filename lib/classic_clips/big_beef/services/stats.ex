@@ -5,7 +5,7 @@ defmodule ClassicClips.BigBeef.Services.Stats do
 
   def get_todays_scoreboard() do
     with {:ok, %HTTPoison.Response{body: body}} <-
-           NewRelic.Instrumented.HTTPoison.get(@todays_games_url),
+           HTTPoison.get(@todays_games_url),
          {:ok, _} = response <- Jason.decode(body) do
       response
     else
@@ -15,7 +15,7 @@ defmodule ClassicClips.BigBeef.Services.Stats do
 
   def get_boxscore_for_game(game_id) do
     with {:ok, %HTTPoison.Response{body: body}} <-
-           get_box_score_url(game_id) |> NewRelic.Instrumented.HTTPoison.get(),
+           get_box_score_url(game_id) |> HTTPoison.get(),
          {:ok, _} = response <- Jason.decode(body) do
       response
     else

@@ -58,7 +58,7 @@ defmodule ClassicClips.Discord do
         body = Jason.encode!(%{content: text})
 
         Enum.each(discord_tokens, fn dt ->
-          NewRelic.Instrumented.HTTPoison.post(dt.webhook_url, body,
+          HTTPoison.post(dt.webhook_url, body,
             Authorization: dt.webhook_token,
             "Content-Type": "application/json"
           )
@@ -68,7 +68,7 @@ defmodule ClassicClips.Discord do
   end
 
   def get_access_token(code) do
-    case NewRelic.Instrumented.HTTPoison.post(
+    case HTTPoison.post(
            @token_url,
            {:form,
             [
@@ -88,7 +88,7 @@ defmodule ClassicClips.Discord do
   end
 
   def refresh_access_token(%DiscordToken{refresh_token: refresh_token}) do
-    case NewRelic.Instrumented.HTTPoison.post(
+    case HTTPoison.post(
            @token_url,
            {:form,
             [
