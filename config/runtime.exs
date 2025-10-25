@@ -33,6 +33,7 @@ if config_env() == :prod do
 
   config :classic_clips, ClassicClipsWeb.Endpoint,
     http: [
+      ip: {0, 0, 0, 0, 0, 0, 0, 0},
       port: String.to_integer(System.get_env("PORT") || "4000"),
       transport_options: [socket_opts: [:inet6]]
     ],
@@ -40,6 +41,7 @@ if config_env() == :prod do
 
   config :classic_clips, BigBeefWeb.Endpoint,
     http: [
+      ip: {0, 0, 0, 0, 0, 0, 0, 0},
       port: String.to_integer(System.get_env("PORT") || "4001"),
       transport_options: [socket_opts: [:inet6]]
     ],
@@ -47,6 +49,7 @@ if config_env() == :prod do
 
   config :classic_clips, PickEmWeb.Endpoint,
     http: [
+      ip: {0, 0, 0, 0, 0, 0, 0, 0},
       port: String.to_integer(System.get_env("PORT") || "4002"),
       transport_options: [socket_opts: [:inet6]]
     ],
