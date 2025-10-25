@@ -2,5 +2,5 @@
 set -eu
 
 cd -P -- "$(dirname -- "$0")"
-exec ./classic_clips eval "ClassicClips.Release.migrate()"
+exec ./no_dunks_pick_em eval "ClassicClips.Release.migrate()"
 

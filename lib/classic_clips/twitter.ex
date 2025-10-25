@@ -9,7 +9,7 @@ defmodule ClassicClips.Twitter do
   @twitter_api_base "https://api.twitter.com/2"
 
   def post_tweet(text) do
-    if Application.get_env(:classic_clips, :twitter_posts_enabled, false) == true do
+    if Application.get_env(:no_dunks_pick_em, :twitter_posts_enabled, false) == true do
       send_request(text)
     else
       Logger.info("Not posting tweet: #{text}")
@@ -112,11 +112,11 @@ defmodule ClassicClips.Twitter do
   end
 
   def get_client_id do
-    Application.fetch_env!(:classic_clips, :twitter_api_oauth_2_client_id)
+    Application.fetch_env!(:no_dunks_pick_em, :twitter_api_oauth_2_client_id)
   end
 
   def get_client_secret do
-    Application.fetch_env!(:classic_clips, :twitter_api_oauth_2_client_secret)
+    Application.fetch_env!(:no_dunks_pick_em, :twitter_api_oauth_2_client_secret)
   end
 
   def get_authorization_header do
@@ -124,7 +124,7 @@ defmodule ClassicClips.Twitter do
   end
 
   def get_redirect_uri do
-    Application.fetch_env!(:classic_clips, :twitter_auth_callback_url)
+    Application.fetch_env!(:no_dunks_pick_em, :twitter_auth_callback_url)
   end
 
   def get_authorization_url do

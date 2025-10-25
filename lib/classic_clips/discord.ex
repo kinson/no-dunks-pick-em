@@ -7,7 +7,7 @@ defmodule ClassicClips.Discord do
   alias ClassicClips.PickEm.{DiscordToken, MatchUp}
   alias ClassicClips.Repo
 
-  @redirect_uri Application.compile_env!(:classic_clips, :discord_redirect_uri)
+  @redirect_uri Application.compile_env!(:no_dunks_pick_em, :discord_redirect_uri)
 
   @token_url "https://discord.com/api/oauth2/token"
 
@@ -36,7 +36,7 @@ defmodule ClassicClips.Discord do
   def post_matchup(%MatchUp{status: :published} = matchup) do
     text = get_post_string(matchup)
 
-    if Application.get_env(:classic_clips, :discord_posts_enabled, false) == true do
+    if Application.get_env(:no_dunks_pick_em, :discord_posts_enabled, false) == true do
       send_request(text)
       :ok
     else
@@ -150,11 +150,11 @@ defmodule ClassicClips.Discord do
   end
 
   defp get_discord_client_id do
-    Application.fetch_env!(:classic_clips, :discord_client_id)
+    Application.fetch_env!(:no_dunks_pick_em, :discord_client_id)
   end
 
   defp get_discord_client_secret do
-    Application.fetch_env!(:classic_clips, :discord_client_secret)
+    Application.fetch_env!(:no_dunks_pick_em, :discord_client_secret)
   end
 
   def get_team_emoji(abbreviation) do

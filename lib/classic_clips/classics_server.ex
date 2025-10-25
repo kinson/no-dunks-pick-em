@@ -9,7 +9,7 @@ defmodule ClassicClips.ClassicsServer do
 
   @impl true
   def init(state) do
-    if Application.fetch_env!(:classic_clips, :classics_server_enabled) == true do
+    if Application.fetch_env!(:no_dunks_pick_em, :classics_server_enabled) == true do
       IO.puts("STARTING CLASSIC YT POLLING INTERVAL")
       :timer.send_interval(1200_000, :work)
     end

@@ -82,11 +82,11 @@ WORKDIR "/app"
 RUN chown nobody /app
 
 # Only copy the final release from the build stage
-COPY --from=builder --chown=nobody:root /app/_build/prod/rel/classic_clips ./
+COPY --from=builder --chown=nobody:root /app/_build/prod/rel/no_dunks_pick_em ./
 
 USER nobody
 
-CMD ["/app/bin/classic_clips", "start"]
+CMD ["/app/bin/no_dunks_pick_em", "start"]
 
 # Appended by flyctl
 ENV ECTO_IPV6 true

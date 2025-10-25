@@ -3,7 +3,7 @@ defmodule ClassicClips.MixProject do
 
   def project do
     [
-      app: :classic_clips,
+      app: :no_dunks_pick_em,
       version: "1.3.0",
       elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -53,7 +53,7 @@ defmodule ClassicClips.MixProject do
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 0.5"},
       {:timex, "~> 3.7"},
-      {:gettext, "~> 0.11"},
+      {:gettext, "~> 0.26"},
       {:jason, "~> 1.4"},
       {:plug_cowboy, "~> 2.6"},
       {:swoosh, "~> 1.6"},
@@ -85,7 +85,7 @@ defmodule ClassicClips.MixProject do
 
   defp releases do
     [
-      classic_clips: [
+      no_dunks_pick_em: [
         include_executables_for: [:unix],
         cookie: "9SG2s0isEqhq8rq6briNCBpnFtmXr8o7DERoZTGjBknPqIS06D6zTQ==",
         overlays: ["rel/overlays"]
