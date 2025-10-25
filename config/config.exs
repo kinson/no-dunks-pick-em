@@ -11,7 +11,6 @@ config :no_dunks_pick_em,
   ecto_repos: [ClassicClips.Repo]
 
 # Configures the endpoint
-
 config :no_dunks_pick_em, PickEmWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "ZaWIHgxKEl5jFFtPd3SNSpFGLbCR3XLm8nYdwW5pq+QDIJ7WKrHsKrQXaqSKffGB",
