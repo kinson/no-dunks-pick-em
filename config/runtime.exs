@@ -22,7 +22,10 @@ if config_env() == :prod do
     socket_options: [:inet6],
     pool_size: 8,
     queue_target: 500,
-    queue_interval: 5000
+    queue_interval: 5000,
+    telemetry_options: [
+      time_unit: :millisecond
+    ]
 
   secret_key_base =
     System.get_env("SECRET_KEY_BASE") ||

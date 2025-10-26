@@ -10,7 +10,10 @@ config :no_dunks_pick_em, ClassicClips.Repo,
   password: "password",
   database: "classic_clips_test#{System.get_env("MIX_TEST_PARTITION")}",
   hostname: "localhost",
-  pool: Ecto.Adapters.SQL.Sandbox
+  pool: Ecto.Adapters.SQL.Sandbox,
+  telemetry_options: [
+    time_unit: :millisecond
+  ]
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.

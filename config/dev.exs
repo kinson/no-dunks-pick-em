@@ -7,7 +7,10 @@ config :no_dunks_pick_em, ClassicClips.Repo,
   database: "classic_clips_dev",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
-  pool_size: 10
+  pool_size: 10,
+  telemetry_options: [
+    time_unit: :millisecond
+  ]
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
