@@ -773,7 +773,6 @@ defmodule ClassicClips.PickEm do
          {:ok, _} <- save_ndc_picks(ndc_attrs, matchup),
          true <- Fiat.CacheServer.remove_key(:most_recent_matchup),
          {:ok, _} <- notify_sickos(matchup),
-         {:ok, _} <- post_matchup_on_twitter(matchup),
          :ok <- Discord.post_matchup(matchup) do
       {:ok, matchup}
     end
@@ -814,45 +813,6 @@ defmodule ClassicClips.PickEm do
     {:ok, true}
   end
 
-  def post_matchup_on_twitter(%MatchUp{status: :published} = matchup) do
-    NewRelic.Instrumented.Task.Supervisor.start_child(
-      ClassicClips.TaskSupervisor,
-      fn ->
-        %{away_team: away, home_team: home, favorite_team: favorite} = matchup
-
-        away_string = "#{away.default_emoji} #{away.location} #{away.name}"
-        home_string = "#{home.default_emoji} #{home.location} #{home.name}"
-        favorite_string = "#{favorite.abbreviation} #{matchup.spread}"
-
-        est_time =
-          matchup.tip_datetime
-          |> DateTime.add(-1 * get_est_offset_seconds())
-          |> DateTime.to_time()
-          |> Timex.format!("{h12}:{0m} {AM}")
-
-        tweet_string = """
-        Today's matchup is live:
-        #{away_string} @ #{home_string} (#{favorite_string})
-        Make your pick before #{est_time} EDT!
-        https://nodunkspickem.com
-        """
-
-        ClassicClips.Twitter.post_tweet(tweet_string)
-      end,
-      shutdown: 10_000
-    )
-
-    {:ok, true}
-  end
-
-  def post_matchup_on_twitter(%MatchUp{status: status, id: id}) do
-    Logger.info("Skipping Twitter post until matchup is published, currently in #{status} status",
-      matchup_id: id
-    )
-
-    {:ok, true}
-  end
-
   def get_matchup_ready_for_publishing do
     now = DateTime.utc_now()
 
@@ -876,7 +836,6 @@ defmodule ClassicClips.PickEm do
          preloaded_matchup <-
            Repo.preload(updated_matchup, [:home_team, :away_team, :favorite_team]),
          {:ok, _} <- notify_sickos(preloaded_matchup),
-         {:ok, _} <- post_matchup_on_twitter(preloaded_matchup),
          :ok <- Discord.post_matchup(preloaded_matchup) do
       Logger.notice("Published matchup starting at: #{inspect(preloaded_matchup.tip_datetime)}")
     end

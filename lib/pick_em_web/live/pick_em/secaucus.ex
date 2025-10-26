@@ -322,11 +322,6 @@ defmodule PickEmWeb.PickEmLive.Secaucus do
     {:noreply, NotificationComponent.show(socket, "Resent matchup emails")}
   end
 
-  def handle_event("repost-matchup-tweet", _, socket) do
-    PickEm.post_matchup_on_twitter(socket.assigns.current_matchup)
-    {:noreply, NotificationComponent.show(socket, "Reposted matchup tweet")}
-  end
-
   def handle_event("repost-matchup-discord", _, socket) do
     Discord.post_matchup(socket.assigns.current_matchup)
     {:noreply, NotificationComponent.show(socket, "Reposted matchup to discord")}

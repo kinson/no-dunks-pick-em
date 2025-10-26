@@ -102,7 +102,7 @@ defmodule ClassicClips.Discord do
         Jason.decode!(body)
 
       {:error, error} ->
-        Logger.error("Failed to post tweet: #{inspect(error)}", error: error)
+        Logger.error("Failed to post discord message: #{inspect(error)}", error: error)
     end
   end
 
