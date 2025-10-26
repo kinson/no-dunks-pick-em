@@ -48,8 +48,6 @@ config :logger, :info_log, path: "/var/log/clips/info.log", level: :info
 
 config :logger, :console, format: "$time [$level] $message\n"
 
-config :logger, :logflare_logger_backend, level: :notice
-
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key

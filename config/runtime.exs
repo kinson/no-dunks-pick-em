@@ -55,10 +55,6 @@ if config_env() == :prod do
     ],
     secret_key_base: secret_key_base
 
-  config :logger, :logflare_logger_backend,
-    source_id: System.fetch_env!("LOGFLARE_SOURCE_ID"),
-    api_key: System.fetch_env!("LOGFLARE_API_KEY")
-
   config :new_relic_agent,
     app_name: "no-dunks-pick-em",
     license_key: System.fetch_env!("NEW_RELIC_LICENSE_KEY")
