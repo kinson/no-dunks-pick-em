@@ -76,11 +76,11 @@
               />
             <% else %>
               <p class="text-white py-3 px-2 my-0 text-5xl">
-                <%= Theme.get_emoji_for_team(team, @theme) %>
+                {Theme.get_emoji_for_team(team, @theme)}
               </p>
             <% end %>
             <p class="text-white mx-0 my-0 font-open-sans text-3xl">
-              <%= team.name %>
+              {team.name}
             </p>
           </div>
         <% end %>
@@ -99,11 +99,11 @@
               />
             <% else %>
               <p class="text-white py-3 px-2 my-0 text-5xl">
-                <%= Theme.get_emoji_for_team(team, @theme) %>
+                {Theme.get_emoji_for_team(team, @theme)}
               </p>
             <% end %>
             <p class="text-white mx-0 my-0 font-open-sans text-3xl">
-              <%= team.name %>
+              {team.name}
             </p>
           </div>
         <% end %>

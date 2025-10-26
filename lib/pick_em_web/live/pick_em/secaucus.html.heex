@@ -27,7 +27,7 @@
           label={nil}
         />
         <p class={get_status_text_class(@current_matchup)}>
-          <%= get_matchup_status(@current_matchup) %>
+          {get_matchup_status(@current_matchup)}
         </p>
       </div>
       <%= if length(@games) > 0 do %>
@@ -52,10 +52,10 @@
               phx-value-tip-datetime={game.dt_utc}
             >
               <p class="my-0 font-bold">
-                <%= game.away_team.abbreviation %> @ <%= game.home_team.abbreviation %>
+                {game.away_team.abbreviation} @ {game.home_team.abbreviation}
               </p>
               <p class="my-0">
-                <%= get_time_for_game(game.dt_utc) %>
+                {get_time_for_game(game.dt_utc)}
               </p>
             </div>
           <% end %>
@@ -115,7 +115,7 @@
               }
             >
               <p class="my-0 bg-nd-pink text-white">
-                <%= @selected_game_away_code %>
+                {@selected_game_away_code}
               </p>
             </div>
             <div
@@ -129,7 +129,7 @@
               }
             >
               <p class="my-0 bg-nd-pink text-white">
-                <%= @selected_game_home_code %>
+                {@selected_game_home_code}
               </p>
             </div>
             <.input
@@ -145,7 +145,7 @@
             <%= for ndc_member <- [:skeets, :tas, :trey] do %>
               <div class="flex flex-row my-4 gap-x-4">
                 <p class="text-white w-24 my-0">
-                  <%= Atom.to_string(ndc_member) |> String.capitalize() %>
+                  {Atom.to_string(ndc_member) |> String.capitalize()}
                 </p>
                 <div
                   phx-click="select-ndc-member-pick"
@@ -159,7 +159,7 @@
                   }
                 >
                   <p class="my-0 bg-nd-pink text-white">
-                    <%= @selected_game_away_code %>
+                    {@selected_game_away_code}
                   </p>
                 </div>
                 <div
@@ -174,7 +174,7 @@
                   phx-value-team-id={home_team_id_value(@selected_game_home_id, @current_matchup)}
                 >
                   <p class="my-0 bg-nd-pink text-white">
-                    <%= @selected_game_home_code %>
+                    {@selected_game_home_code}
                   </p>
                 </div>
               </div>
@@ -189,7 +189,12 @@
                 Publish Now:
               </p>
 
-              <.input field={@matchup_form[:publish_now]} type="checkbox" class="my-0 text-3xl rounded" label={nil} />
+              <.input
+                field={@matchup_form[:publish_now]}
+                type="checkbox"
+                class="my-0 text-3xl rounded"
+                label={nil}
+              />
             </div>
 
             <div class="flex flex-row items-center gap-x-5 my-8">
@@ -217,7 +222,7 @@
               type="submit"
               class="rounded-none bg-nd-pink shadow-lg mt-10 w-full hover:bg-nd-yellow hover:text-nd-pink"
             >
-              <%= if @current_matchup, do: "Update", else: "Create" %> Matchup
+              {if @current_matchup, do: "Update", else: "Create"} Matchup
             </.button>
           <% end %>
         <% end %>

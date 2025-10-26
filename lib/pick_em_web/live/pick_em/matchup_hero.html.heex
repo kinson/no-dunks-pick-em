@@ -10,22 +10,22 @@
     <img class="h-44" src={Routes.static_path(@socket, "/images/NDC_LOGO_2.png")} />
   </div>
   <div class="flex flex-row gap-x-4">
-    <%= render_team_abbreviation(
+    {render_team_abbreviation(
       @matchup.away_team,
       @theme,
       "text-nd-pink mb-6 mt-2 font-open-sans font-extrabold text-7xl tracking-tightest"
-    ) %>
+    )}
     <p class="text-nd-pink mb-6 mt-2 font-open-sans font-extrabold text-7xl tracking-tightest" ) %>
       @
     </p>
-    <%= render_team_abbreviation(
+    {render_team_abbreviation(
       @matchup.home_team,
       @theme,
       "text-nd-pink mb-6 mt-2 font-open-sans font-extrabold text-7xl tracking-tightest"
-    ) %>
+    )}
 
     <p class="text-nd-pink mb-6 mt-2 font-open-sans font-extrabold text-7xl tracking-tightest">
-      <%= render_game_spread(@matchup) %>
+      {render_game_spread(@matchup)}
     </p>
   </div>
 
@@ -46,7 +46,7 @@
         SKEETS
       </h2>
       <h3 class="text-nd-yellow text-6xl tracking-tightest my-1 font-bold">
-        (<%= get_ndc_record_string(:skeets, @ndc_record) %>)
+        ({get_ndc_record_string(:skeets, @ndc_record)})
       </h3>
     </div>
 
@@ -66,7 +66,7 @@
         TAS
       </h2>
       <h3 class="text-nd-yellow text-6xl tracking-tightest my-1 font-bold">
-        (<%= get_ndc_record_string(:tas, @ndc_record) %>)
+        ({get_ndc_record_string(:tas, @ndc_record)})
       </h3>
     </div>
 
@@ -86,7 +86,7 @@
         TREY
       </h2>
       <h3 class="text-nd-yellow text-6xl tracking-tightest my-1 font-bold">
-        (<%= get_ndc_record_string(:trey, @ndc_record) %>)
+        ({get_ndc_record_string(:trey, @ndc_record)})
       </h3>
     </div>
   </div>
@@ -94,10 +94,10 @@
   <%= if show_pick_spread?(@pick_spread) do %>
     <div class="w-2/3 mt-12">
       <p class="font-open-sans text-center font-bold text-white text-4xl mt-5 mb-6">
-        <%= get_pick_spread_total(@pick_spread) %> &bull; <%= get_pick_spread_string(
+        {get_pick_spread_total(@pick_spread)} &bull; {get_pick_spread_string(
           @pick_spread,
           @matchup
-        ) %>
+        )}
       </p>
 
       <div class="flex flex-row">

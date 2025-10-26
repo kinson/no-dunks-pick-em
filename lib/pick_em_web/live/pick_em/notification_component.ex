@@ -17,7 +17,7 @@ defmodule PickEmWeb.PickEmLive.NotificationComponent do
         phx-click={hide()}
         id="notification"
       >
-        <%= @message %>
+        {@message}
       </div>
     </div>
     """

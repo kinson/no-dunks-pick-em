@@ -23,13 +23,13 @@ defmodule PickEmWeb.PickEmLive.AccountInfoComponent do
             <p class="my-0 ml-auto underline cursor-pointer" phx-click="edit" phx-target={@myself}>
               edit
             </p>
-      <.link
-        href={Routes.google_auth_path(@socket, :logout)}
-        method="post"
-        class="my-0 ml-4 underline text-black hover:text-black"
-      >
-        log out
-      </.link>
+            <.link
+              href={Routes.google_auth_path(@socket, :logout)}
+              method="post"
+              class="my-0 ml-4 underline text-black hover:text-black"
+            >
+              log out
+            </.link>
           <% end %>
         </div>
         <%= if @editing_profile do %>
@@ -49,7 +49,7 @@ defmodule PickEmWeb.PickEmLive.AccountInfoComponent do
           </.form>
         <% else %>
           <p class="m-0 w-72 tracking-wide truncate text-3xl font-open-sans tracking-wide">
-            <%= @user.username %>
+            {@user.username}
           </p>
         <% end %>
       </div>
@@ -68,6 +68,7 @@ defmodule PickEmWeb.PickEmLive.AccountInfoComponent do
   @impl true
   def handle_event("edit", _, socket) do
     form_data = %{"username" => socket.assigns.user.username}
+
     {:noreply,
      socket
      |> assign(:editing_profile, true)

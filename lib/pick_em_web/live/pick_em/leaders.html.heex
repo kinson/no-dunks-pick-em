@@ -1,24 +1,24 @@
 <div class="border-l-2 border-nd-yellow w-11/12 mx-auto md:w-full">
   <h2 class="text-nd-pink mb-6 mt-14 ml-20 font-open-sans font-bold text-4xl">
-    <%= page_title(@selected_season, @selected_month) %>
+    {page_title(@selected_season, @selected_month)}
   </h2>
 
   <%= for {leader, index} <- Enum.with_index(@leaders) do %>
     <div class="flex flex-row ml-10 md:ml-20">
       <p class="text-nd-yellow my-2 mx-2 font-open-sans font-bold text-3xl">
-        <%= index + 1 %> .
+        {index + 1} .
       </p>
       <p class="text-white my-2 font-open-sans font-bold tracking-wider">
-        <%= get_truncated_username(leader.user) %>
+        {get_truncated_username(leader.user)}
         <span class="font-light">
-          [ <%= leader.total_picks %> ]
+          [ {leader.total_picks} ]
         </span>
       </p>
       <p class="text-nd-yellow my-2 mx-2 flex-1 font-open-sans overflow-hidden">
-        <%= Enum.map(1..100, fn _ -> "." end) %>
+        {Enum.map(1..100, fn _ -> "." end)}
       </p>
       <p class="text-white my-2 font-open-sans font-extrabold">
-        <%= leader.wins %> - <%= leader.losses %>
+        {leader.wins} - {leader.losses}
       </p>
     </div>
   <% end %>
@@ -37,18 +37,20 @@
     </h2>
     <%= for %{season: season, months: months} <- @leaders_seasons do %>
       <p class="ml-2 text-nd-yellow font-open-sans font-bold text-xl my-2">
-        <%= season.name %>
+        {season.name}
       </p>
       <div class="flex flex-row gap-4 flex-wrap">
         <%= for month <- months do %>
           <.link
-            patch={Routes.pick_em_leaders_path(@socket, :leaders,
+            patch={
+              Routes.pick_em_leaders_path(@socket, :leaders,
                 month: month,
                 season: season.year_end
-              )}
+              )
+            }
             class="ml-2 text-white font-open-sans font-light underline"
           >
-            <%= String.capitalize(month) %>
+            {String.capitalize(month)}
           </.link>
         <% end %>
       </div>

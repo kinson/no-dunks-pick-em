@@ -15,6 +15,7 @@ defmodule PickEmWeb.PickEmLive.Settings do
       "emojis_enabled" => Theme.get_emojis_enabled(theme),
       "emojis_only" => Theme.get_emoji_only_enabled(theme)
     }
+
     emoji_settings_form = Phoenix.Component.to_form(emoji_settings_data, as: :team_emojis)
 
     # Create form for custom emojis (initially empty, populated when editing)
@@ -80,6 +81,7 @@ defmodule PickEmWeb.PickEmLive.Settings do
       "emojis_enabled" => Theme.get_emojis_enabled(theme),
       "emojis_only" => Theme.get_emoji_only_enabled(theme)
     }
+
     emoji_settings_form = Phoenix.Component.to_form(emoji_settings_data, as: :team_emojis)
 
     {:noreply,

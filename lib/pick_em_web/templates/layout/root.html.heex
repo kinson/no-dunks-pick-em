@@ -28,7 +28,7 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="csrf-token" content={get_csrf_token()} />
     <.live_title>
-      <%= assigns[:metadata_title] || "Pick 'Em" %>
+      {assigns[:metadata_title] || "Pick 'Em"}
     </.live_title>
     <meta name="url" content="https://nodunkspickem.com" />
     <meta name="og:url" content="https://nodunkspickem.com" />
@@ -51,6 +51,6 @@
     </script>
   </head>
   <body class="bg-nd-purple">
-    <%= @inner_content %>
+    {@inner_content}
   </body>
 </html>

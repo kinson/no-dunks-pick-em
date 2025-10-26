@@ -86,16 +86,17 @@ defmodule PickEmWeb.PickEmLive.Secaucus do
 
   def handle_event("select-favorite-team", %{"favorite-id" => favorite_team_id}, socket) do
     # Update form with new favorite team
-    matchup_form = build_matchup_form(
-      socket.assigns.current_matchup,
-      socket.assigns.matchup_date,
-      socket.assigns.selected_game_id,
-      socket.assigns.selected_game_tip_datetime,
-      socket.assigns.selected_game_away_id,
-      socket.assigns.selected_game_home_id,
-      favorite_team_id,
-      socket.assigns.selected_game_line
-    )
+    matchup_form =
+      build_matchup_form(
+        socket.assigns.current_matchup,
+        socket.assigns.matchup_date,
+        socket.assigns.selected_game_id,
+        socket.assigns.selected_game_tip_datetime,
+        socket.assigns.selected_game_away_id,
+        socket.assigns.selected_game_home_id,
+        favorite_team_id,
+        socket.assigns.selected_game_line
+      )
 
     socket =
       socket
@@ -281,16 +282,17 @@ defmodule PickEmWeb.PickEmLive.Secaucus do
     socket = assign_games(socket, matchup_date)
 
     # Update form with new game line
-    matchup_form = build_matchup_form(
-      socket.assigns.current_matchup,
-      socket.assigns.matchup_date,
-      socket.assigns.selected_game_id,
-      socket.assigns.selected_game_tip_datetime,
-      socket.assigns.selected_game_away_id,
-      socket.assigns.selected_game_home_id,
-      socket.assigns.selected_game_favorite_id,
-      game_line
-    )
+    matchup_form =
+      build_matchup_form(
+        socket.assigns.current_matchup,
+        socket.assigns.matchup_date,
+        socket.assigns.selected_game_id,
+        socket.assigns.selected_game_tip_datetime,
+        socket.assigns.selected_game_away_id,
+        socket.assigns.selected_game_home_id,
+        socket.assigns.selected_game_favorite_id,
+        game_line
+      )
 
     {:noreply, assign(socket, :matchup_form, matchup_form)}
   end
@@ -303,16 +305,17 @@ defmodule PickEmWeb.PickEmLive.Secaucus do
     socket = assign_games(socket, matchup_date)
 
     # Update form with new matchup date
-    matchup_form = build_matchup_form(
-      socket.assigns.current_matchup,
-      socket.assigns.matchup_date,
-      socket.assigns.selected_game_id,
-      socket.assigns.selected_game_tip_datetime,
-      socket.assigns.selected_game_away_id,
-      socket.assigns.selected_game_home_id,
-      socket.assigns.selected_game_favorite_id,
-      socket.assigns.selected_game_line
-    )
+    matchup_form =
+      build_matchup_form(
+        socket.assigns.current_matchup,
+        socket.assigns.matchup_date,
+        socket.assigns.selected_game_id,
+        socket.assigns.selected_game_tip_datetime,
+        socket.assigns.selected_game_away_id,
+        socket.assigns.selected_game_home_id,
+        socket.assigns.selected_game_favorite_id,
+        socket.assigns.selected_game_line
+      )
 
     {:noreply, assign(socket, :matchup_form, matchup_form)}
   end
@@ -349,16 +352,17 @@ defmodule PickEmWeb.PickEmLive.Secaucus do
           |> Repo.preload([:skeets_pick_team, :trey_pick_team, :tas_pick_team])
 
         # Build form with existing matchup data
-        matchup_form = build_matchup_form(
-          matchup,
-          form_matchup_date,
-          matchup.nba_game_id,
-          matchup.tip_datetime,
-          matchup.away_team.id,
-          matchup.home_team.id,
-          matchup.favorite_team.id,
-          matchup.spread
-        )
+        matchup_form =
+          build_matchup_form(
+            matchup,
+            form_matchup_date,
+            matchup.nba_game_id,
+            matchup.tip_datetime,
+            matchup.away_team.id,
+            matchup.home_team.id,
+            matchup.favorite_team.id,
+            matchup.spread
+          )
 
         socket
         |> assign(:selected_game_id, matchup.nba_game_id)
@@ -556,17 +560,32 @@ defmodule PickEmWeb.PickEmLive.Secaucus do
   end
 
   # Build matchup form with current values
-  defp build_matchup_form(current_matchup, matchup_date, game_id, tip_datetime, away_team_id, home_team_id, favorite_team_id, game_line \\ nil) do
+  defp build_matchup_form(
+         current_matchup,
+         matchup_date,
+         game_id,
+         tip_datetime,
+         away_team_id,
+         home_team_id,
+         favorite_team_id,
+         game_line \\ nil
+       ) do
     form_data = %{
-      "matchup_date" => if(matchup_date, do: Date.to_iso8601(matchup_date), else: PickEm.get_current_est_date() |> Date.to_iso8601()),
+      "matchup_date" =>
+        if(matchup_date,
+          do: Date.to_iso8601(matchup_date),
+          else: PickEm.get_current_est_date() |> Date.to_iso8601()
+        ),
       "game_id" => game_id || (current_matchup && current_matchup.nba_game_id),
       "tip_datetime" => tip_datetime || (current_matchup && current_matchup.tip_datetime),
-      "favorite_team_id" => favorite_team_id || (current_matchup && current_matchup.favorite_team_id),
+      "favorite_team_id" =>
+        favorite_team_id || (current_matchup && current_matchup.favorite_team_id),
       "away_team_id" => away_team_id || (current_matchup && current_matchup.away_team_id),
       "home_team_id" => home_team_id || (current_matchup && current_matchup.home_team_id),
       "game_line" => game_line || (current_matchup && current_matchup.spread),
       "publish_now" => false,
-      "publish_at" => current_matchup && current_matchup.publish_at && get_publish_at_date(current_matchup)
+      "publish_at" =>
+        current_matchup && current_matchup.publish_at && get_publish_at_date(current_matchup)
     }
 
     Phoenix.Component.to_form(form_data, as: :matchup)

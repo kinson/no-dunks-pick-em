@@ -4,47 +4,47 @@
       Today&apos;s Matchup
     </p>
     <div class="flex flex-row gap-4">
-      <%= render_team_abbreviation(
+      {render_team_abbreviation(
         @matchup.away_team,
         @theme,
         "text-3xl md:text-4xl text-nd-yellow font-open-sans font-bold mb-0"
-      ) %>
+      )}
       <p class="text-3xl md:text-4xl text-nd-yellow font-open-sans font-bold mb-0">
         @
       </p>
-      <%= render_team_abbreviation(
+      {render_team_abbreviation(
         @matchup.home_team,
         @theme,
         "text-3xl md:text-4xl text-nd-yellow font-open-sans font-bold mb-0"
-      ) %>
+      )}
       <div class="text-3xl md:text-4xl text-nd-yellow font-open-sans font-bold mb-0 flex flex-row">
-        <%= render_game_spread(@matchup) %>
+        {render_game_spread(@matchup)}
       </div>
     </div>
     <%= if @matchup.score do %>
       <div class="flex flex-row gap-4 mt-6 flex-wrap">
-        <%= render_team_location(
+        {render_team_location(
           @matchup.winning_team,
           @theme,
           "text-2xl text-white font-open-sans font-bold my-0 uppercase opacity-90 whitespace-nowrap"
-        ) %>
+        )}
         <p class="text-white font-open-sans text-2xl font-bold my-0 opacity-90 whitespace-nowrap">
           WINS
         </p>
         <p class="text-white font-open-sans text-2xl font-bold my-0 opacity-90 whitespace-nowrap">
-          <%= @matchup.score %>
+          {@matchup.score}
         </p>
       </div>
     <% else %>
       <p class="font-open-sans font-bold text-white text-2xl mt-4 mb-8">
-        TIP @ <%= get_time_for_game(@matchup) %> EST
+        TIP @ {get_time_for_game(@matchup)} EST
       </p>
 
       <p class="font-open-sans font-bold text-white text-2xl mt-5 mb-3">
-        <%= get_pick_spread_total(@pick_spread) %> &bull; <%= get_pick_spread_string(
+        {get_pick_spread_total(@pick_spread)} &bull; {get_pick_spread_string(
           @pick_spread,
           @matchup
-        ) %>
+        )}
       </p>
 
       <div class="flex flex-row">
@@ -74,29 +74,29 @@
         <p class="col-span-3 my-1">
           TAS
           <span class="font-light ml-4">
-            [ <%= get_ndc_record_string(:tas, @ndc_record) %> ]
+            [ {get_ndc_record_string(:tas, @ndc_record)} ]
           </span>
         </p>
         <div class="my-1">
-          <%= render_team_abbreviation(get_ndc_pick("tas", @ndc_pick), @theme) %>
+          {render_team_abbreviation(get_ndc_pick("tas", @ndc_pick), @theme)}
         </div>
         <p class="col-span-3 my-1">
           SKEETS
           <span class="font-light ml-4">
-            [ <%= get_ndc_record_string(:skeets, @ndc_record) %> ]
+            [ {get_ndc_record_string(:skeets, @ndc_record)} ]
           </span>
         </p>
         <div class="my-1">
-          <%= render_team_abbreviation(get_ndc_pick("skeets", @ndc_pick), @theme) %>
+          {render_team_abbreviation(get_ndc_pick("skeets", @ndc_pick), @theme)}
         </div>
         <p class="col-span-3 my-1">
           TREY
           <span class="font-light ml-4">
-            [ <%= get_ndc_record_string(:trey, @ndc_record) %> ]
+            [ {get_ndc_record_string(:trey, @ndc_record)} ]
           </span>
         </p>
         <div class="my-1">
-          <%= render_team_abbreviation(get_ndc_pick("trey", @ndc_pick), @theme) %>
+          {render_team_abbreviation(get_ndc_pick("trey", @ndc_pick), @theme)}
         </div>
       </div>
     <% end %>
@@ -108,13 +108,13 @@
 
       <div class="flex flex-row text-white my-2 font-bold">
         <p class="min-w-21 pr-10 my-1">
-          <%= User.get_truncated_username(@user) %>
+          {User.get_truncated_username(@user)}
           <span class="font-light ml-4">
-            <%= get_user_record(@current_user_month_record) %>
+            {get_user_record(@current_user_month_record)}
           </span>
         </p>
         <div class="my-1">
-          <%= get_picked_team(@existing_user_pick, @theme) %>
+          {get_picked_team(@existing_user_pick, @theme)}
         </div>
       </div>
     <% end %>
@@ -128,7 +128,7 @@
         Lock In Your Pick
       </p>
       <p class="text-white font-open-sans text-2xl font-light mt-2 mb-1">
-        <%= get_time_left(@matchup) %>
+        {get_time_left(@matchup)}
       </p>
     </div>
 
@@ -147,7 +147,7 @@
             )
           }
         >
-          <%= render_team_name(@matchup.away_team, @theme, "mx-auto") %>
+          {render_team_name(@matchup.away_team, @theme, "mx-auto")}
         </button>
         <button
           type="button"
@@ -162,7 +162,7 @@
             )
           }
         >
-          <%= render_team_name(@matchup.home_team, @theme) %>
+          {render_team_name(@matchup.home_team, @theme)}
         </button>
       </div>
       <%= if @user do %>
@@ -179,7 +179,7 @@
             )
           }
         >
-          <%= get_save_button_text(@existing_user_pick, @can_save_pick?) %>
+          {get_save_button_text(@existing_user_pick, @can_save_pick?)}
         </button>
       <% else %>
         <div class="flex flex-row rounded-lg shadow-xl bg-white items-center w-max px-6 py-4 my-6">

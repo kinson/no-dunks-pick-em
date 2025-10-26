@@ -7,13 +7,18 @@
         </h1>
         <div class="h-10 w-13/12 md:w-27/24 bg-nd-yellow -mt-12"></div>
       </div>
-      <.live_component module={PickEmWeb.PickEmLive.NavComponent} id="nav-component" active={@page} user={@user} />
+      <.live_component
+        module={PickEmWeb.PickEmLive.NavComponent}
+        id="nav-component"
+        active={@page}
+        user={@user}
+      />
       <%= unless is_nil(@theme) do %>
-        <%= @inner_content %>
+        {@inner_content}
       <% end %>
     </div>
   <% else %>
-    <%= @inner_content %>
+    {@inner_content}
   <% end %>
   <.live_component
     module={PickEmWeb.PickEmLive.NotificationComponent}
