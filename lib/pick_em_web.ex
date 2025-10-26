@@ -35,7 +35,7 @@ defmodule PickEmWeb do
 
       # Import convenience functions from controllers
       import Phoenix.Controller,
-        only: [get_flash: 1, get_flash: 2, view_module: 1, view_template: 1]
+        only: [get_flash: 1, get_flash: 2, view_module: 1, view_template: 1, get_csrf_token: 0]
 
       # Include shared imports and aliases for views
       unquote(view_helpers())
@@ -77,17 +77,19 @@ defmodule PickEmWeb do
 
   defp view_helpers do
     quote do
-      # Use all HTML functionality (forms, tags, etc)
-      use Phoenix.HTML
+      # Import HTML functionality (forms, tags, etc)
+      use Gettext, backend: PickEmWeb.Gettext
 
-      # Import LiveView helpers (live_render, live_component, live_patch, etc)
+      import Phoenix.HTML
       import Phoenix.Component
 
-      # Import basic rendering functionality (render, render_layout, etc)
-      import Phoenix.View
+      # Core UI components
+      import PickEmWeb.CoreComponents
 
-      import PickEmWeb.ErrorHelpers
-      import PickEmWeb.Gettext
+      # Common modules used in templates
+      alias Phoenix.LiveView.JS
+
+      # import PickEmWeb.ErrorHelpers
       alias PickEmWeb.Router.Helpers, as: Routes
     end
   end

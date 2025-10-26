@@ -26,7 +26,7 @@
       content="https://beef-tracker-assets.s3.amazonaws.com/pick-em-meta-image-v2.png"
     />
     <meta name="twitter:card" content="summary_large_image" />
-    <%= csrf_meta_tag() %>
+    <meta name="csrf-token" content={get_csrf_token()} />
     <.live_title>
       <%= assigns[:metadata_title] || "Pick 'Em" %>
     </.live_title>

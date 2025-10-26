@@ -16,11 +16,16 @@ defmodule PickEmWeb.PickEmLive.Profile do
     if is_nil(user) do
       {:ok, push_navigate(socket, to: "/")}
     else
+      # Create form for email notifications
+      email_form_data = %{"email_notifications" => user.email_new_matchups}
+      email_form = Phoenix.Component.to_form(email_form_data, as: :matchup_emails)
+
       {:ok,
        socket
        |> assign(:page, "profile")
        |> assign(:theme, theme)
        |> assign(:subscribed_to_email_notifications?, user.email_new_matchups)
+       |> assign(:email_form, email_form)
        |> assign(:is_missing_picks, PickEm.is_missing_picks_cached?(user))
        |> assign(:picks, PickEm.get_picks_for_user_cached(user))
        |> assign(:user, user)}
@@ -61,8 +66,14 @@ defmodule PickEmWeb.PickEmLive.Profile do
 
     case user_result do
       {:ok, updated_user} ->
+        # Update the form with new value
+        email_form_data = %{"email_notifications" => updated_user.email_new_matchups}
+        email_form = Phoenix.Component.to_form(email_form_data, as: :matchup_emails)
+
         {:noreply,
-         assign(socket, :subscribed_to_email_notifications?, updated_user.email_new_matchups)
+         socket
+         |> assign(:subscribed_to_email_notifications?, updated_user.email_new_matchups)
+         |> assign(:email_form, email_form)
          |> assign(:user, updated_user)
          |> NotificationComponent.show("Updated email notification preference")}
 

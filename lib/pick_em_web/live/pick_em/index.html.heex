@@ -188,10 +188,9 @@
             src={Routes.static_path(@socket, "/images/google_logo.png")}
             alt="Google Sign In"
           />
-          <%= link("Sign In To Pick!",
-            to: @google_auth_url,
-            class: "underline font-bold font-open-sans text-2xl"
-          ) %>
+          <.link href={@google_auth_url} class="underline font-bold font-open-sans text-2xl">
+            Sign In To Pick!
+          </.link>
         </div>
       <% end %>
     </div>

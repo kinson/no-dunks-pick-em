@@ -10,6 +10,16 @@ defmodule PickEmWeb.PickEmLive.Settings do
 
     theme = Theme.get_theme_from_session(session)
 
+    # Create form for emoji settings
+    emoji_settings_data = %{
+      "emojis_enabled" => Theme.get_emojis_enabled(theme),
+      "emojis_only" => Theme.get_emoji_only_enabled(theme)
+    }
+    emoji_settings_form = Phoenix.Component.to_form(emoji_settings_data, as: :team_emojis)
+
+    # Create form for custom emojis (initially empty, populated when editing)
+    custom_emojis_form = Phoenix.Component.to_form(%{}, as: :custom_emojis)
+
     {:ok,
      socket
      |> assign(:page, "settings")
@@ -19,16 +29,41 @@ defmodule PickEmWeb.PickEmLive.Settings do
      |> assign(:west_teams, get_west_teams())
      |> assign(:is_editing_teams, false)
      |> assign(:submit_emoji_enabled, false)
+     |> assign(:emoji_settings_form, emoji_settings_form)
+     |> assign(:custom_emojis_form, custom_emojis_form)
      |> assign(:user, user)}
   end
 
   @impl true
   def handle_event("edit", _, socket) do
-    {:noreply, assign(socket, :is_editing_teams, true)}
+    # When entering edit mode, populate custom emojis form with current values
+    theme = socket.assigns.theme
+    east_teams = socket.assigns.east_teams
+    west_teams = socket.assigns.west_teams
+
+    custom_emojis_data =
+      (east_teams ++ west_teams)
+      |> Enum.map(fn team ->
+        {to_string(team.id), Theme.get_emoji_for_team(team, theme)}
+      end)
+      |> Map.new()
+
+    custom_emojis_form = Phoenix.Component.to_form(custom_emojis_data, as: :custom_emojis)
+
+    {:noreply,
+     socket
+     |> assign(:is_editing_teams, true)
+     |> assign(:custom_emojis_form, custom_emojis_form)}
   end
 
   def handle_event("cancel", _, socket) do
-    {:noreply, assign(socket, :is_editing_teams, false)}
+    # Reset custom emojis form when canceling
+    custom_emojis_form = Phoenix.Component.to_form(%{}, as: :custom_emojis)
+
+    {:noreply,
+     socket
+     |> assign(:is_editing_teams, false)
+     |> assign(:custom_emojis_form, custom_emojis_form)}
   end
 
   def handle_event(
@@ -40,12 +75,20 @@ defmodule PickEmWeb.PickEmLive.Settings do
       socket.assigns.theme
       |> Map.merge(team_emojis)
 
+    # Update emoji settings form
+    emoji_settings_data = %{
+      "emojis_enabled" => Theme.get_emojis_enabled(theme),
+      "emojis_only" => Theme.get_emoji_only_enabled(theme)
+    }
+    emoji_settings_form = Phoenix.Component.to_form(emoji_settings_data, as: :team_emojis)
+
     {:noreply,
      socket
      |> assign(:is_editing_teams, false)
      |> assign(:submit_emoji_enabled, true)
      |> assign(:theme, theme)
      |> assign(:theme_data, Jason.encode!(theme))
+     |> assign(:emoji_settings_form, emoji_settings_form)
      |> PickEmWeb.PickEmLive.NotificationComponent.show("Updated emoji preference")}
   end
 

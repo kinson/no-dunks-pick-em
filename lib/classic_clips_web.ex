@@ -77,8 +77,19 @@ defmodule ClassicClipsWeb do
 
   defp view_helpers do
     quote do
-      # Use all HTML functionality (forms, tags, etc)
-      use Phoenix.HTML
+      # Import HTML functionality (forms, tags, etc)
+      import Phoenix.HTML
+
+      # Import form input functions
+      import Phoenix.HTML.Form,
+        only: [
+          input_id: 2,
+          input_value: 2,
+          input_name: 2
+        ]
+
+      # Import our custom HTML helpers for Phoenix HTML 4.0 compatibility
+      import PickEmWeb.HTMLHelpers
 
       # Import LiveView helpers (live_render, live_component, live_patch, etc)
       import Phoenix.Component

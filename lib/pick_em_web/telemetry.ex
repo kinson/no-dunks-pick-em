@@ -44,12 +44,4 @@ defmodule PickEmWeb.Telemetry do
       summary("vm.total_run_queue_lengths.io")
     ]
   end
-
-  defp periodic_measurements do
-    [
-      # A module, function and arguments to be invoked periodically.
-      # This function must call :telemetry.execute/3 and a metric must be added above.
-      # {PickEmWeb, :count_users, []}
-    ]
-  end
 end

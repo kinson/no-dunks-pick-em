@@ -1,25 +1,33 @@
 <div class="border-l-2 border-nd-yellow w-11/12 mx-auto md:w-full">
   <.form
-    :let={f}
-    for={:team_emojis}
+    for={@emoji_settings_form}
     action={Routes.theme_path(@socket, :create)}
     phx-change="toggle_emojis"
     phx-submit="toggle_emojis"
     phx-trigger-action={@submit_emoji_enabled}
   >
     <div class="flex flex-row items-baseline gap-6 mb-10 ml-10 md:ml-20">
-      <%= checkbox(f, :emojis_enabled, value: Theme.get_emojis_enabled(@theme), class: "my-0") %>
+      <.input
+        field={@emoji_settings_form[:emojis_enabled]}
+        type="checkbox"
+        value={Theme.get_emojis_enabled(@theme)}
+        class="my-0"
+        label={nil}
+      />
       <p class="text-nd-pink my-0 font-open-sans font-bold text-4xl">
         Enable Team Emojis
       </p>
     </div>
 
     <div class="flex flex-row items-baseline my-8 gap-6 my-10 ml-10 md:ml-20">
-      <%= checkbox(f, :emojis_only,
-        value: Theme.get_emoji_only_enabled(@theme),
-        class: "my-0",
-        disabled: Theme.get_emojis_enabled(@theme) == false
-      ) %>
+      <.input
+        field={@emoji_settings_form[:emojis_only]}
+        type="checkbox"
+        value={Theme.get_emoji_only_enabled(@theme)}
+        class="my-0"
+        disabled={Theme.get_emojis_enabled(@theme) == false}
+        label={nil}
+      />
       <p class="text-nd-pink my-0 font-open-sans font-bold text-4xl">
         Enable Emoji Only Mode
       </p>
@@ -53,17 +61,19 @@
     </p>
   <% end %>
 
-  <.form :let={f} for={:custom_emojis} action={Routes.theme_path(@socket, :create)}>
+  <.form for={@custom_emojis_form} action={Routes.theme_path(@socket, :create)}>
     <div class="flex flex-row ml-10 md:ml-20">
       <div class="flex flex-col flex-1">
         <%= for team <- @east_teams do %>
           <div class="flex flex-row gap-2 items-center gap-8 my-3">
             <%= if @is_editing_teams do %>
-              <%= text_input(f, team.id,
-                class:
-                  "text-white !w-16 !border-0 !border-b-2 !rounded-none !px-2 !py-1 !text-center !my-0 !mx-0 !h-auto text-5xl",
-                value: Theme.get_emoji_for_team(team, @theme)
-              ) %>
+              <.input
+                field={@custom_emojis_form[to_string(team.id)]}
+                type="text"
+                class="text-white !w-16 !border-0 !border-b-2 !rounded-none !px-2 !py-1 !text-center !my-0 !mx-0 !h-auto text-5xl"
+                value={Theme.get_emoji_for_team(team, @theme)}
+                label={nil}
+              />
             <% else %>
               <p class="text-white py-3 px-2 my-0 text-5xl">
                 <%= Theme.get_emoji_for_team(team, @theme) %>
@@ -80,11 +90,13 @@
         <%= for team <- @west_teams do %>
           <div class="flex flex-row items-center gap-8 my-3">
             <%= if @is_editing_teams do %>
-              <%= text_input(f, team.id,
-                class:
-                  "text-white !w-16 !border-0 !border-b-2 !rounded-none !px-2 !py-1 !text-center !my-0 !mx-0 !h-auto text-5xl",
-                value: Theme.get_emoji_for_team(team, @theme)
-              ) %>
+              <.input
+                field={@custom_emojis_form[to_string(team.id)]}
+                type="text"
+                class="text-white !w-16 !border-0 !border-b-2 !rounded-none !px-2 !py-1 !text-center !my-0 !mx-0 !h-auto text-5xl"
+                value={Theme.get_emoji_for_team(team, @theme)}
+                label={nil}
+              />
             <% else %>
               <p class="text-white py-3 px-2 my-0 text-5xl">
                 <%= Theme.get_emoji_for_team(team, @theme) %>
@@ -98,10 +110,12 @@
       </div>
     </div>
     <%= if @is_editing_teams do %>
-      <%= submit("Save",
-        class:
-          "text-nd-yellow bg-nd-pink hover:bg-nd-pink focus:bg-nd-pink border-0 mb-0 mt-10 ml-10 md:ml-20"
-      ) %>
+      <.button
+        type="submit"
+        class="text-nd-yellow bg-nd-pink hover:bg-nd-pink focus:bg-nd-pink border-0 mb-0 mt-10 ml-10 md:ml-20"
+      >
+        Save
+      </.button>
     <% end %>
   </.form>
 </div>

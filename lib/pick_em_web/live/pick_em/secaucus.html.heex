@@ -8,9 +8,7 @@
       This is the control center for No Dunks Pick 'Em, where you can create and edit matchups.
     </p>
     <.form
-      :let={f}
-      for={%{}}
-      as={:matchup}
+      for={@matchup_form}
       phx-submit="create-matchup"
       phx-change="matchup-change-form"
       class="mb-0"
@@ -19,12 +17,15 @@
         1. Choose a Date
       </p>
       <div class="flex flex-row items-center mb-10">
-        <%= date_input(f, :matchup_date,
-          value: get_matchup_date(@matchup_date),
-          min: "2025-10-20",
-          max: "2026-04-21",
-          class: "my-0 text-3xl p-1 rounded"
-        ) %>
+        <.input
+          field={@matchup_form[:matchup_date]}
+          type="date"
+          value={get_matchup_date(@matchup_date)}
+          min="2025-10-20"
+          max="2026-04-21"
+          class="my-0 text-3xl p-1 rounded"
+          label={nil}
+        />
         <p class={get_status_text_class(@current_matchup)}>
           <%= get_matchup_status(@current_matchup) %>
         </p>
@@ -60,19 +61,31 @@
           <% end %>
         </div>
 
-        <%= hidden_input(f, :game_id, value: game_id_value(@selected_game_id, @current_matchup)) %>
-        <%= hidden_input(f, :tip_datetime,
-          value: tip_datetime_value(@selected_game_tip_datetime, @current_matchup)
-        ) %>
-        <%= hidden_input(f, :favorite_team_id,
-          value: favorite_team_id_value(@selected_game_favorite_id, @current_matchup)
-        ) %>
-        <%= hidden_input(f, :away_team_id,
-          value: away_team_id_value(@selected_game_away_id, @current_matchup)
-        ) %>
-        <%= hidden_input(f, :home_team_id,
-          value: home_team_id_value(@selected_game_home_id, @current_matchup)
-        ) %>
+        <input
+          type="hidden"
+          name="matchup[game_id]"
+          value={game_id_value(@selected_game_id, @current_matchup)}
+        />
+        <input
+          type="hidden"
+          name="matchup[tip_datetime]"
+          value={tip_datetime_value(@selected_game_tip_datetime, @current_matchup)}
+        />
+        <input
+          type="hidden"
+          name="matchup[favorite_team_id]"
+          value={favorite_team_id_value(@selected_game_favorite_id, @current_matchup)}
+        />
+        <input
+          type="hidden"
+          name="matchup[away_team_id]"
+          value={away_team_id_value(@selected_game_away_id, @current_matchup)}
+        />
+        <input
+          type="hidden"
+          name="matchup[home_team_id]"
+          value={home_team_id_value(@selected_game_home_id, @current_matchup)}
+        />
 
         <%= if away_team_id_value(@selected_game_away_id, @current_matchup) do %>
           <p class="text-white font-open-sans font-bold mb-4">
@@ -119,11 +132,14 @@
                 <%= @selected_game_home_code %>
               </p>
             </div>
-            <%= text_input(f, :game_line,
-              placeholder: "-7.5",
-              class: "my-0 text-white !w-28",
-              value: game_line_value(@selected_game_line, @current_matchup)
-            ) %>
+            <.input
+              field={@matchup_form[:game_line]}
+              type="text"
+              placeholder="-7.5"
+              class="my-0 text-white !w-28"
+              value={game_line_value(@selected_game_line, @current_matchup)}
+              label={nil}
+            />
           </div>
           <%= if @show_no_dunks_picks do %>
             <%= for ndc_member <- [:skeets, :tas, :trey] do %>
@@ -173,7 +189,7 @@
                 Publish Now:
               </p>
 
-              <%= checkbox(f, :publish_now, class: "my-0 text-3xl rounded") %>
+              <.input field={@matchup_form[:publish_now]} type="checkbox" class="my-0 text-3xl rounded" label={nil} />
             </div>
 
             <div class="flex flex-row items-center gap-x-5 my-8">
@@ -181,12 +197,15 @@
                 Publish Date:
               </p>
 
-              <%= datetime_local_input(f, :publish_at,
-                value: get_publish_at_date(@current_matchup),
-                min: PickEm.get_current_est_date(),
-                max: "2025-04-20",
-                class: "my-0 text-3xl rounded"
-              ) %>
+              <.input
+                field={@matchup_form[:publish_at]}
+                type="datetime-local"
+                value={get_publish_at_date(@current_matchup)}
+                min={PickEm.get_current_est_date()}
+                max="2025-04-20"
+                class="my-0 text-3xl rounded"
+                label={nil}
+              />
 
               <p class="text-white my-0">
                 EST
@@ -194,21 +213,23 @@
             </div>
           <% end %>
           <%= if show_submit_button(@current_matchup) do %>
-            <%= submit("#{if @current_matchup, do: "Update", else: "Create"} Matchup",
-              class:
-                "rounded-none bg-nd-pink shadow-lg mt-10 w-full hover:bg-nd-yellow hover:text-nd-pink"
-            ) %>
+            <.button
+              type="submit"
+              class="rounded-none bg-nd-pink shadow-lg mt-10 w-full hover:bg-nd-yellow hover:text-nd-pink"
+            >
+              <%= if @current_matchup, do: "Update", else: "Create" %> Matchup
+            </.button>
           <% end %>
         <% end %>
       <% end %>
     </.form>
 
     <%= if @current_matchup do %>
-      <%= link to: "/matchup-hero?matchup_id=#{@current_matchup.id}" do %>
+      <.link href={"/matchup-hero?matchup_id=#{@current_matchup.id}"}>
         <button class="rounded-none bg-nd-pink shadow-lg mt-6 w-full hover:bg-nd-yellow hover:text-nd-pink">
           View Matchup Preview
         </button>
-      <% end %>
+      </.link>
     <% end %>
 
     <%= if show_notification_buttons(@current_matchup) do %>

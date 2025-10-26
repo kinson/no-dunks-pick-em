@@ -23,23 +23,29 @@ defmodule PickEmWeb.PickEmLive.AccountInfoComponent do
             <p class="my-0 ml-auto underline cursor-pointer" phx-click="edit" phx-target={@myself}>
               edit
             </p>
-            <%= link("log out",
-              class: "my-0 ml-4 underline text-black hover:text-black",
-              to: Routes.google_auth_path(@socket, :logout),
-              method: :post
-            ) %>
+      <.link
+        href={Routes.google_auth_path(@socket, :logout)}
+        method="post"
+        class="my-0 ml-4 underline text-black hover:text-black"
+      >
+        log out
+      </.link>
           <% end %>
         </div>
         <%= if @editing_profile do %>
-          <.form :let={f} for={:user} phx-submit="save" phx-target={@myself} class="mb-0">
-            <%= text_input(f, :username,
-              value: @user.username,
-              class: "!w-full block font-open-sans text-3xl tracking-wide"
-            ) %>
-            <%= submit("Save",
-              class:
-                "text-nd-yellow bg-nd-pink hover:bg-nd-pink focus:bg-nd-pink border-0 mb-0 w-full"
-            ) %>
+          <.form for={@form} phx-submit="save" phx-target={@myself} class="mb-0">
+            <.input
+              field={@form[:username]}
+              type="text"
+              value={@user.username}
+              class="!w-full block font-open-sans text-3xl tracking-wide"
+            />
+            <.button
+              type="submit"
+              class="text-nd-yellow bg-nd-pink hover:bg-nd-pink focus:bg-nd-pink border-0 mb-0 w-full"
+            >
+              Save
+            </.button>
           </.form>
         <% else %>
           <p class="m-0 w-72 tracking-wide truncate text-3xl font-open-sans tracking-wide">
@@ -53,12 +59,19 @@ defmodule PickEmWeb.PickEmLive.AccountInfoComponent do
 
   @impl true
   def mount(socket) do
-    {:ok, assign(socket, :editing_profile, false)}
+    {:ok,
+     socket
+     |> assign(:editing_profile, false)
+     |> assign(:form, to_form(%{}, as: :user))}
   end
 
   @impl true
   def handle_event("edit", _, socket) do
-    {:noreply, assign(socket, :editing_profile, true)}
+    form_data = %{"username" => socket.assigns.user.username}
+    {:noreply,
+     socket
+     |> assign(:editing_profile, true)
+     |> assign(:form, to_form(form_data, as: :user))}
   end
 
   def handle_event("cancel", _, socket) do
