@@ -31,22 +31,6 @@ if config_env() == :prod do
       You can generate one by calling: mix phx.gen.secret
       """
 
-  config :no_dunks_pick_em, ClassicClipsWeb.Endpoint,
-    http: [
-      ip: {0, 0, 0, 0, 0, 0, 0, 0},
-      port: String.to_integer(System.get_env("PORT") || "4000"),
-      transport_options: [socket_opts: [:inet6]]
-    ],
-    secret_key_base: secret_key_base
-
-  config :no_dunks_pick_em, BigBeefWeb.Endpoint,
-    http: [
-      ip: {0, 0, 0, 0, 0, 0, 0, 0},
-      port: String.to_integer(System.get_env("PORT") || "4001"),
-      transport_options: [socket_opts: [:inet6]]
-    ],
-    secret_key_base: secret_key_base
-
   config :no_dunks_pick_em, PickEmWeb.Endpoint,
     http: [
       ip: {0, 0, 0, 0, 0, 0, 0, 0},

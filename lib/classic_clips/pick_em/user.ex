@@ -1,8 +1,8 @@
-defmodule ClassicClips.Timeline.User do
+defmodule ClassicClips.PickEm.User do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias ClassicClips.Timeline.User
+  alias ClassicClips.PickEm.User
   alias ClassicClips.Repo
 
   @primary_key {:id, :binary_id, autogenerate: true}

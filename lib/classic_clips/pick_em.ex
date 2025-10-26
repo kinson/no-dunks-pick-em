@@ -18,8 +18,8 @@ defmodule ClassicClips.PickEm do
     NdcRecord
   }
 
-  alias ClassicClips.Timeline.User
-  alias ClassicClips.BigBeef.Season
+  alias ClassicClips.PickEm.User
+  alias ClassicClips.PickEm.Season
   alias ClassicClips.Discord
 
   @new_york_offset 4 * 60 * 60
@@ -798,7 +798,7 @@ defmodule ClassicClips.PickEm do
         )
         |> Repo.all()
         |> Enum.map(&%{name: &1.username, email: &1.email, matchup: matchup})
-        |> Enum.each(&ClassicClips.Timeline.UserNotifier.deliver_new_matchup/1)
+        |> Enum.each(&ClassicClips.UserNotifier.deliver_new_matchup/1)
       end,
       shutdown: 30_000
     )

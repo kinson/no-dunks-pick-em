@@ -8,8 +8,8 @@ defmodule ClassicClips.PickEm.UserRecord do
     field :month, :string
     field :wins, :integer
 
-    belongs_to :user, ClassicClips.Timeline.User, type: :binary_id
-    belongs_to :season, ClassicClips.BigBeef.Season, type: :binary_id
+    belongs_to :user, ClassicClips.PickEm.User, type: :binary_id
+    belongs_to :season, ClassicClips.PickEm.Season, type: :binary_id
 
     timestamps()
   end

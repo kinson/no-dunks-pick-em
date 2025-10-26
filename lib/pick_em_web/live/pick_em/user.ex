@@ -2,7 +2,7 @@ defmodule PickEmWeb.PickEmLive.User do
   alias ClassicClips.Repo
 
   def get_or_create_user(%{"profile" => profile}) do
-    alias ClassicClips.Timeline.User
+    alias ClassicClips.PickEm.User
 
     case Repo.get_by(User, email: profile.email) do
       nil -> User.create_user(profile)
@@ -14,7 +14,7 @@ defmodule PickEmWeb.PickEmLive.User do
     {:ok, nil}
   end
 
-  def get_truncated_username(%ClassicClips.Timeline.User{username: username}) do
+  def get_truncated_username(%ClassicClips.PickEm.User{username: username}) do
     if String.length(username) > 22 do
       truncated = String.slice(username, 0..19) |> String.trim_trailing()
 

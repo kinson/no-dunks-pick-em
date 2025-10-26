@@ -21,7 +21,7 @@ defmodule ClassicClips.MatchupServer do
 
   @impl true
   def handle_info(:timeout, %{matchup: nil} = state) do
-    # query for matchup in db 
+    # query for matchup in db
     case PickEm.get_todays_matchup() do
       nil ->
         Logger.notice("No matchup to monitor")
@@ -100,7 +100,7 @@ defmodule ClassicClips.MatchupServer do
   end
 
   defp get_game_data(nba_game_id) do
-    alias ClassicClips.BigBeef.Services.Stats
+    alias ClassicClips.Services.Stats
 
     case Stats.get_boxscore_for_game(nba_game_id) do
       {:ok, game} ->

@@ -1,4 +1,4 @@
-defmodule ClassicClips.BigBeef.Player do
+defmodule ClassicClips.PickEm.Player do
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -9,8 +9,6 @@ defmodule ClassicClips.BigBeef.Player do
     field :number, :integer
     field :team, :string
     field :ext_person_id, :string
-
-    has_many :beefs, ClassicClips.BigBeef.Beef
 
     timestamps(type: :utc_datetime)
   end

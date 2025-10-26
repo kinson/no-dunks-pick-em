@@ -48,7 +48,7 @@ defmodule PickEmWeb.PickEmLive.Secaucus do
       |> assign_games(PickEm.get_current_est_date() |> Date.to_iso8601())
 
     case user do
-      %ClassicClips.Timeline.User{role: :super_sicko} ->
+      %ClassicClips.PickEm.User{role: :super_sicko} ->
         {:ok, socket}
 
       _ ->

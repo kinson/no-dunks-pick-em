@@ -3,7 +3,7 @@ defmodule PickEmWeb.PickEmLive.Leaders do
 
   alias ClassicClips.PickEm
   alias PickEmWeb.PickEmLive.{Theme, User}
-  alias ClassicClips.BigBeef.Season
+  alias ClassicClips.PickEm.Season
 
   @impl true
   def mount(_params, session, socket) do
@@ -41,7 +41,7 @@ defmodule PickEmWeb.PickEmLive.Leaders do
      |> assign(:selected_season, current_season)}
   end
 
-  defp get_truncated_username(%ClassicClips.Timeline.User{username: username}) do
+  defp get_truncated_username(%ClassicClips.PickEm.User{username: username}) do
     if String.length(username) > 22 do
       truncated = String.slice(username, 0..19) |> String.trim_trailing()
 

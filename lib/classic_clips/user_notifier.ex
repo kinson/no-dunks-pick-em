@@ -1,4 +1,4 @@
-defmodule ClassicClips.Timeline.UserNotifier do
+defmodule ClassicClips.UserNotifier do
   import Swoosh.Email
   alias ClassicClips.Mailer
 

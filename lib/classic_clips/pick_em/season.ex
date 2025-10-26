@@ -1,4 +1,4 @@
-defmodule ClassicClips.BigBeef.Season do
+defmodule ClassicClips.PickEm.Season do
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -10,7 +10,6 @@ defmodule ClassicClips.BigBeef.Season do
     field :current, :boolean
     field :schedule, :map
 
-    has_many :beefs, ClassicClips.BigBeef.Beef
     has_many :scheduled_games, ClassicClips.PickEm.ScheduledGame
 
     timestamps(type: :utc_datetime)

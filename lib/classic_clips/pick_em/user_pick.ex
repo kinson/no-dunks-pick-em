@@ -7,7 +7,7 @@ defmodule ClassicClips.PickEm.UserPick do
     field :result, Ecto.Enum, values: [:win, :loss]
     field :forfeited_at, :utc_datetime
 
-    belongs_to :user, ClassicClips.Timeline.User, type: :binary_id
+    belongs_to :user, ClassicClips.PickEm.User, type: :binary_id
     belongs_to :matchup, ClassicClips.PickEm.MatchUp, type: :binary_id
     belongs_to :picked_team, ClassicClips.PickEm.Team, type: :binary_id
 
