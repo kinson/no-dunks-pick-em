@@ -23,8 +23,7 @@ config :logger,
   backends: [
     :console,
     Sentry.LoggerBackend,
-    {LoggerFileBackend, :info_log},
-    LogflareLogger.HttpBackend
+    {LoggerFileBackend, :info_log}
   ]
 
 # Do not print debug messages in production

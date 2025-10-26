@@ -8,14 +8,14 @@
 # This file is based on these images:
 #
 #   - https://hub.docker.com/r/hexpm/elixir/tags - for the build image
-#   - https://hub.docker.com/_/debian?tab=tags&page=1&name=bullseye-20210902-slim - for the release image
+#   - https://hub.docker.com/_/debian?tab=tags&page=1&name=bookworm-20251020-slim - for the release image
 #   - https://pkgs.org/ - resource for finding needed packages
-#   - Ex: hexpm/elixir:1.13.2-erlang-24.2-debian-bullseye-20210902-slim
+#   - Ex: hexpm/elixir:1.18.1-erlang-25.0-debian-bookworm-20251020-slim
 #
-ARG BUILDER_IMAGE="hexpm/elixir:1.14.2-erlang-25.1.2-debian-bullseye-20221004-slim"
-ARG RUNNER_IMAGE="debian:bullseye-20221004-slim"
+ARG BUILDER_IMAGE="hexpm/elixir:1.18.1-erlang-25.0-debian-bookworm-20251020-slim"
+ARG RUNNER_IMAGE="debian:bookworm-20251020-slim"
 
-FROM ${BUILDER_IMAGE} as builder
+FROM ${BUILDER_IMAGE} AS builder
 
 # install build dependencies
 RUN apt-get update -y && apt-get install -y build-essential git nodejs npm\
@@ -74,9 +74,9 @@ RUN apt-get update -y && apt-get install -y libstdc++6 openssl libncurses5 local
 # Set the locale
 RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && locale-gen
 
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
+ENV LANG="en_US.UTF-8"
+ENV LANGUAGE="en_US:en"
+ENV LC_ALL="en_US.UTF-8"
 
 WORKDIR "/app"
 RUN chown nobody /app
@@ -89,5 +89,5 @@ USER nobody
 CMD ["/app/bin/no_dunks_pick_em", "start"]
 
 # Appended by flyctl
-ENV ECTO_IPV6 true
-ENV ERL_AFLAGS "-proto_dist inet6_tcp"
+ENV ECTO_IPV6="true"
+ENV ERL_AFLAGS="-proto_dist inet6_tcp"
