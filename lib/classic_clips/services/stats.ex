@@ -1,4 +1,4 @@
-defmodule ClassicClips.BigBeef.Services.Stats do
+defmodule ClassicClips.Services.Stats do
   @todays_games_url "https://cdn.nba.com/static/json/liveData/scoreboard/todaysScoreboard_00.json"
 
   @box_score_url "https://cdn.nba.com/static/json/liveData/boxscore/boxscore_"

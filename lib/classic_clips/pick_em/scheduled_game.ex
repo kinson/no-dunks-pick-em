@@ -12,7 +12,7 @@ defmodule ClassicClips.PickEm.ScheduledGame do
     belongs_to :away_team, ClassicClips.PickEm.Team, type: :binary_id
     belongs_to :home_team, ClassicClips.PickEm.Team, type: :binary_id
 
-    belongs_to :season, ClassicClips.BigBeef.Season, type: :binary_id
+    belongs_to :season, ClassicClips.PickEm.Season, type: :binary_id
 
     timestamps()
   end

@@ -8,7 +8,7 @@ defmodule Mix.Tasks.ConvertScheduleJson do
   alias ClassicClips.Repo
 
   alias ClassicClips.PickEm.{ScheduledGame, Team}
-  alias ClassicClips.BigBeef.Season
+  alias ClassicClips.PickEm.Season
 
   import Ecto.Query
 

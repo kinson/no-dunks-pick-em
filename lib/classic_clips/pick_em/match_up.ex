@@ -3,7 +3,7 @@ defmodule ClassicClips.PickEm.MatchUp do
   import Ecto.Changeset
 
   alias ClassicClips.PickEm.Team
-  alias ClassicClips.BigBeef.Season
+  alias ClassicClips.PickEm.Season
 
   @primary_key {:id, :binary_id, autogenerate: true}
   schema "matchups" do

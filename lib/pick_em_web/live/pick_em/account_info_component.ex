@@ -79,7 +79,7 @@ defmodule PickEmWeb.PickEmLive.AccountInfoComponent do
   end
 
   def handle_event("save", %{"user" => attrs}, socket) do
-    case ClassicClips.Timeline.update_user(socket.assigns.user, attrs) do
+    case ClassicClips.Users.update_user(socket.assigns.user, attrs) do
       {:ok, user} ->
         {:noreply, assign(socket, :user, user) |> assign(:editing_profile, false)}
 

@@ -10,7 +10,8 @@ defmodule ClassicClips.MixProject do
       releases: releases(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      listeners: [Phoenix.CodeReloader]
     ]
   end
 

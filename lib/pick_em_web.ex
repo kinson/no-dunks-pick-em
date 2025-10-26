@@ -19,11 +19,15 @@ defmodule PickEmWeb do
 
   def controller do
     quote do
-      use Phoenix.Controller, namespace: PickEmWeb
+      use Phoenix.Controller,
+        formats: [:html, :json]
 
       import Plug.Conn
       import PickEmWeb.Gettext
       alias PickEmWeb.Router.Helpers, as: Routes
+
+      # Replace deprecated :namespace option with layout plug
+      plug :put_layout, html: {PickEmWeb.LayoutView, :app}
     end
   end
 
