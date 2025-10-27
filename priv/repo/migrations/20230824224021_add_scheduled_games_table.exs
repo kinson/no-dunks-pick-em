@@ -4,9 +4,9 @@ defmodule ClassicClips.Repo.Migrations.AddScheduledGamesTable do
   def change do
     create table(:scheduled_games, primary_key: false) do
       add :id, :binary_id, primary_key: true
-      add :away_team_id, references(:teams, on_deleted: :nothing, type: :binary_id)
-      add :home_team_id, references(:teams, on_deleted: :nothing, type: :binary_id)
-      add :season_id, references(:seasons, on_deleted: :nothing, type: :binary_id)
+      add :away_team_id, references(:teams, on_delete: :nothing, type: :binary_id)
+      add :home_team_id, references(:teams, on_delete: :nothing, type: :binary_id)
+      add :season_id, references(:seasons, on_delete: :nothing, type: :binary_id)
 
       add :external_id, :string
       add :date, :date

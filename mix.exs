@@ -47,7 +47,7 @@ defmodule ClassicClips.MixProject do
       {:postgrex, "~> 0.21"},
       {:phoenix_live_view, "~> 1.0"},
       {:floki, ">= 0.27.0", only: :test},
-      {:new_relic_agent, "~> 1.27"},
+      {:new_relic_agent, "~> 1.29"},
       {:phoenix_html, "~> 4.0"},
       {:phoenix_live_reload, "~> 1.4", only: :dev},
       {:telemetry_metrics, "~> 0.6"},
