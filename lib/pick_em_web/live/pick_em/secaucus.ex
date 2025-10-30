@@ -7,7 +7,7 @@ defmodule PickEmWeb.PickEmLive.Secaucus do
 
   require Logger
 
-  @show_no_dunks_picks false
+  @show_no_dunks_picks true
 
   @impl true
   def mount(_params, session, socket) do

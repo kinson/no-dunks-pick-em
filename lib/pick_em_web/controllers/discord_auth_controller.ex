@@ -1,4 +1,10 @@
 defmodule PickEmWeb.DiscordAuthController do
+  @moduledoc """
+  Handles the callback from Discord Auth API redirect.
+
+  To initiate go to website
+  https://discord.com/api/oauth2/authorize?client_id=YOUR_CLIENT_ID&redirect_uri=https://nodunkspickem.com/auth/discord/callback&response_type=code&scope=webhook.incoming
+  """
   use PickEmWeb, :controller
   use NewRelic.Tracer
 

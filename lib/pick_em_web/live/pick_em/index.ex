@@ -9,7 +9,7 @@ defmodule PickEmWeb.PickEmLive.Index do
   alias PickEmWeb.PickEmLive.{NotificationComponent, Theme, User}
 
   @user_picks_results_topic "pick_spread"
-  @show_no_dunks_picks false
+  @show_no_dunks_picks true
 
   @impl true
   def mount(_params, session, socket) do

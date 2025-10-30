@@ -12,7 +12,7 @@
 #   - https://pkgs.org/ - resource for finding needed packages
 #   - Ex: hexpm/elixir:1.18.1-erlang-25.0-debian-bookworm-20251020-slim
 #
-ARG BUILDER_IMAGE="hexpm/elixir:1.18.1-erlang-25.0-debian-bookworm-20251020-slim"
+ARG BUILDER_IMAGE="hexpm/elixir:1.18.3-erlang-27.3-debian-bookworm-20251020-slim"
 ARG RUNNER_IMAGE="debian:bookworm-20251020-slim"
 
 FROM ${BUILDER_IMAGE} AS builder

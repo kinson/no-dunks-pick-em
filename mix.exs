@@ -75,6 +75,7 @@ defmodule ClassicClips.MixProject do
         "cmd --cd assets npm run deploy",
         "esbuild default --minify",
         "sass default",
+        "cmd cp -r assets/static/. priv/static/",
         "phx.digest"
       ],
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
