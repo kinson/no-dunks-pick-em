@@ -13,7 +13,9 @@ config :no_dunks_pick_em, PickEmWeb.Endpoint,
   url: [host: "nodunkspickem.com"],
   cache_static_manifest: "priv/static/cache_manifest.json",
   check_orign: [
-    "nodunkspickem.com"
+    "nodunkspickem.com",
+    "localhost",
+    "127.0.0.1"
   ]
 
 config :no_dunks_pick_em, :classics_server_enabled, true

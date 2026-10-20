@@ -27,38 +27,20 @@ defmodule Mix.Tasks.ConvertScheduleJson do
     slim_schedule =
       File.read!(input_file)
       |> Jason.decode!()
-      |> Map.get("lscd")
-      |> Enum.flat_map(fn %{"mscd" => month} ->
-        Map.get(month, "g")
-      end)
-      |> Enum.filter(fn %{"v" => away_team, "h" => home_team} ->
-        has_away_team_id? = Map.has_key?(teams_by_abbreviation, away_team["ta"])
-        has_home_team_id? = Map.has_key?(teams_by_abbreviation, home_team["ta"])
-
-        has_away_team_id? and has_home_team_id?
+      |> extract_games()
+      |> Enum.filter(fn %{away_abbr: away_abbr, home_abbr: home_abbr} ->
+        Map.has_key?(teams_by_abbreviation, away_abbr) and
+          Map.has_key?(teams_by_abbreviation, home_abbr)
       end)
       |> Enum.map(fn game ->
-        %{
-          "gid" => external_id,
-          "gdte" => game_date,
-          "stt" => game_start_et,
-          "gdtutc" => gdutc,
-          "utctm" => utctm,
-          "v" => away_team,
-          "h" => home_team
-        } = game
-
-        game_dt_utc =
-          DateTime.new!(Date.from_iso8601!(gdutc), Time.from_iso8601!("#{utctm}:00"))
-
-        away_team_id = Map.get(teams_by_abbreviation, away_team["ta"]) |> hd() |> Map.get(:id)
-        home_team_id = Map.get(teams_by_abbreviation, home_team["ta"]) |> hd() |> Map.get(:id)
+        away_team_id = Map.get(teams_by_abbreviation, game.away_abbr) |> hd() |> Map.get(:id)
+        home_team_id = Map.get(teams_by_abbreviation, game.home_abbr) |> hd() |> Map.get(:id)
 
         ScheduledGame.changeset(%ScheduledGame{}, %{
-          external_id: external_id,
-          date: game_date,
-          dt_utc: game_dt_utc,
-          start_time_et: game_start_et,
+          external_id: game.external_id,
+          date: game.date,
+          dt_utc: game.dt_utc,
+          start_time_et: game.start_time_et,
           away_team_id: away_team_id,
           home_team_id: home_team_id,
           season_id: current_season.id
@@ -81,5 +63,68 @@ defmodule Mix.Tasks.ConvertScheduleJson do
       on_conflict: {:replace_all_except, [:id, :inserted_at]},
       conflict_target: [:external_id]
     )
+  end
+
+  # Legacy data.nba.com format (schedules before 2026)
+  defp extract_games(%{"lscd" => months}) do
+    months
+    |> Enum.flat_map(fn %{"mscd" => month} -> Map.get(month, "g") end)
+    |> Enum.map(fn game ->
+      %{
+        "gid" => external_id,
+        "gdte" => game_date,
+        "stt" => game_start_et,
+        "gdtutc" => gdutc,
+        "utctm" => utctm,
+        "v" => away_team,
+        "h" => home_team
+      } = game
+
+      %{
+        external_id: external_id,
+        date: game_date,
+        start_time_et: game_start_et,
+        dt_utc: DateTime.new!(Date.from_iso8601!(gdutc), Time.from_iso8601!("#{utctm}:00")),
+        away_abbr: away_team["ta"],
+        home_abbr: home_team["ta"]
+      }
+    end)
+  end
+
+  # cdn.nba.com/static/json/staticData/scheduleLeagueV2_1.json format
+  defp extract_games(%{"leagueSchedule" => %{"gameDates" => game_dates}}) do
+    game_dates
+    |> Enum.flat_map(&Map.get(&1, "games"))
+    |> Enum.map(fn game ->
+      %{
+        "gameId" => external_id,
+        "gameDateEst" => game_date_est,
+        "gameTimeEst" => game_time_est,
+        "gameDateTimeUTC" => game_dt_utc,
+        "awayTeam" => %{"teamTricode" => away_abbr},
+        "homeTeam" => %{"teamTricode" => home_abbr}
+      } = game
+
+      {:ok, dt_utc, _} = DateTime.from_iso8601(game_dt_utc)
+
+      %{
+        external_id: external_id,
+        date: game_date_est |> String.slice(0, 10),
+        start_time_et: format_start_time_et(game_time_est),
+        dt_utc: dt_utc,
+        away_abbr: away_abbr,
+        home_abbr: home_abbr
+      }
+    end)
+  end
+
+  # "1900-01-01T19:00:00Z" -> "7:00 pm ET", matching the legacy "stt" format
+  defp format_start_time_et(game_time_est) do
+    {:ok, dt, _} = DateTime.from_iso8601(game_time_est)
+    {hour, meridiem} = if dt.hour >= 12, do: {rem(dt.hour, 12), "pm"}, else: {dt.hour, "am"}
+    hour = if hour == 0, do: 12, else: hour
+    minute = dt.minute |> Integer.to_string() |> String.pad_leading(2, "0")
+
+    "#{hour}:#{minute} #{meridiem} ET"
   end
 end
