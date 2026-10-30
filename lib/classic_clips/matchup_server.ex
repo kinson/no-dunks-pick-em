@@ -107,7 +107,7 @@ defmodule ClassicClips.MatchupServer do
         Stats.extract_team_stats(game)
 
       {:error, error} ->
-        Logger.error("Could not fetch stats", error: error)
+        Logger.error("Could not fetch stats: #{inspect(error)}")
         %{game_status: "error"}
     end
   end

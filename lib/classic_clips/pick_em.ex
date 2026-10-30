@@ -610,7 +610,7 @@ defmodule ClassicClips.PickEm do
     Fiat.CacheServer.fetch_object(
       {:picks_for_user, user.id},
       fn -> get_picks_for_user(user) end,
-      300
+      60
     )
   end
 
@@ -633,7 +633,7 @@ defmodule ClassicClips.PickEm do
 
   @trace :get_current_season_cached
   def get_current_season_cached do
-    Fiat.CacheServer.fetch_object(:current_season, &get_current_season/0, 1200)
+    Fiat.CacheServer.fetch_object(:current_season, &get_current_season/0, 60)
   end
 
   @trace :get_current_season

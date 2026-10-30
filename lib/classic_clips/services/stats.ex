@@ -3,24 +3,42 @@ defmodule ClassicClips.Services.Stats do
 
   @box_score_url "https://cdn.nba.com/static/json/liveData/boxscore/boxscore_"
 
+  @headers [
+    {"User-Agent",
+     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:150.0) Gecko/20100101 Firefox/150.0"},
+    {"Accept", "*/*"},
+    {"Accept-Language", "en-US,en;q=0.9"},
+    {"Accept-Encoding", "gzip"},
+    {"Referer", "https://www.nba.com/"},
+    {"Origin", "https://www.nba.com"}
+  ]
+
   def get_todays_scoreboard() do
-    with {:ok, %HTTPoison.Response{body: body}} <-
-           HTTPoison.get(@todays_games_url),
-         {:ok, _} = response <- Jason.decode(body) do
+    get_json(@todays_games_url)
+  end
+
+  def get_boxscore_for_game(game_id) do
+    get_box_score_url(game_id) |> get_json()
+  end
+
+  defp get_json(url) do
+    with {:ok, %HTTPoison.Response{status_code: 200, headers: headers, body: body}} <-
+           HTTPoison.get(url, @headers),
+         {:ok, _} = response <- body |> maybe_gunzip(headers) |> Jason.decode() do
       response
     else
+      {:ok, %HTTPoison.Response{status_code: status}} -> {:error, {:http_status, status, url}}
       {:error, _} = error -> error
     end
   end
 
-  def get_boxscore_for_game(game_id) do
-    with {:ok, %HTTPoison.Response{body: body}} <-
-           get_box_score_url(game_id) |> HTTPoison.get(),
-         {:ok, _} = response <- Jason.decode(body) do
-      response
-    else
-      {:error, _} = error -> error
-    end
+  defp maybe_gunzip(body, headers) do
+    gzipped? =
+      Enum.any?(headers, fn {name, value} ->
+        String.downcase(name) == "content-encoding" and String.downcase(value) == "gzip"
+      end)
+
+    if gzipped?, do: :zlib.gunzip(body), else: body
   end
 
   def games_or_someshit() do
