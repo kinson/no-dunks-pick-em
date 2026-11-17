@@ -55,6 +55,7 @@ defmodule ClassicClips.MixProject do
       {:timex, "~> 3.7"},
       {:gettext, "~> 0.26"},
       {:jason, "~> 1.4"},
+      {:req, "~> 0.5"},
       {:plug_cowboy, "~> 2.6"},
       {:swoosh, "~> 1.19"},
       {:esbuild, "~> 0.7", runtime: Mix.env() == :dev},

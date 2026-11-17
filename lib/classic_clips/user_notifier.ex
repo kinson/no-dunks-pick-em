@@ -5,11 +5,9 @@ defmodule ClassicClips.UserNotifier do
   require Logger
 
   def deliver_new_matchup(%{name: name, email: email, matchup: matchup}) do
-    est_offset_seconds = -1 * ClassicClips.PickEm.get_est_offset_seconds()
-
     {:ok, datestring} =
       matchup.tip_datetime
-      |> DateTime.add(est_offset_seconds)
+      |> ClassicClips.PickEm.to_new_york()
       |> Timex.format("{Mfull} {D}, {YYYY}")
 
     matchupline =

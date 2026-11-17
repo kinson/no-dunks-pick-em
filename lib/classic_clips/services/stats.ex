@@ -10,7 +10,10 @@ defmodule ClassicClips.Services.Stats do
     {"Accept-Language", "en-US,en;q=0.9"},
     {"Accept-Encoding", "gzip"},
     {"Referer", "https://www.nba.com/"},
-    {"Origin", "https://www.nba.com"}
+    {"Origin", "https://www.nba.com"},
+    {"Sec-Fetch-Dest", "empty"},
+    {"Sec-Fetch-Mode", "cors"},
+    {"Sec-Fetch-Site", "same-site"}
   ]
 
   def get_todays_scoreboard() do
@@ -22,23 +25,22 @@ defmodule ClassicClips.Services.Stats do
   end
 
   defp get_json(url) do
-    with {:ok, %HTTPoison.Response{status_code: 200, headers: headers, body: body}} <-
-           HTTPoison.get(url, @headers),
-         {:ok, _} = response <- body |> maybe_gunzip(headers) |> Jason.decode() do
+    # Req only decompresses the body when compressed: true is set; it keeps the
+    # Accept-Encoding header from @headers
+    with {:ok, %Req.Response{status: 200, body: body}} <-
+           Req.get(url,
+             headers: @headers,
+             decode_body: false,
+             compressed: true,
+             retry: false,
+             connect_options: [protocols: [:http2]]
+           ),
+         {:ok, _} = response <- Jason.decode(body) do
       response
     else
-      {:ok, %HTTPoison.Response{status_code: status}} -> {:error, {:http_status, status, url}}
+      {:ok, %Req.Response{status: status}} -> {:error, {:http_status, status, url}}
       {:error, _} = error -> error
     end
-  end
-
-  defp maybe_gunzip(body, headers) do
-    gzipped? =
-      Enum.any?(headers, fn {name, value} ->
-        String.downcase(name) == "content-encoding" and String.downcase(value) == "gzip"
-      end)
-
-    if gzipped?, do: :zlib.gunzip(body), else: body
   end
 
   def games_or_someshit() do

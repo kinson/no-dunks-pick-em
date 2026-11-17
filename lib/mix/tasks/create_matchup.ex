@@ -36,11 +36,11 @@ defmodule Mix.Tasks.CreateMatchup do
 
     tip_date =
       DateTime.utc_now()
-      |> DateTime.add(-1 * PickEm.get_est_offset_seconds())
+      |> PickEm.to_new_york()
       |> DateTime.to_date()
 
-    tip_datetime_est = DateTime.new!(tip_date, tip_time)
-    tip_datetime_utc = DateTime.add(tip_datetime_est, PickEm.get_est_offset_seconds())
+    tip_datetime_est = NaiveDateTime.new!(tip_date, tip_time)
+    tip_datetime_utc = PickEm.new_york_to_utc(tip_datetime_est)
 
     month = PickEm.get_month_name(tip_datetime_est.month)
 

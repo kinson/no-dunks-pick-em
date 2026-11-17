@@ -136,9 +136,8 @@ defmodule PickEmWeb.PickEmLive.Secaucus do
 
     publish_at =
       if publish_date not in [nil, ""] do
-        publish_date_string = publish_date <> ":00.000Z"
-        {:ok, publish_date_time, _} = DateTime.from_iso8601(publish_date_string)
-        DateTime.add(publish_date_time, PickEm.get_est_offset_seconds())
+        {:ok, publish_date_time} = NaiveDateTime.from_iso8601(publish_date <> ":00")
+        PickEm.new_york_to_utc(publish_date_time)
       end
 
     new_status =
@@ -223,10 +222,9 @@ defmodule PickEmWeb.PickEmLive.Secaucus do
         } = socket
       ) do
     publish_at =
-      if publish_at && publish_now != "true" do
-        publish_date_string = publish_at <> ":00.000Z"
-        {:ok, publish_date_time, _} = DateTime.from_iso8601(publish_date_string)
-        DateTime.add(publish_date_time, PickEm.get_est_offset_seconds())
+      if publish_at not in [nil, ""] and publish_now != "true" do
+        {:ok, publish_date_time} = NaiveDateTime.from_iso8601(publish_at <> ":00")
+        PickEm.new_york_to_utc(publish_date_time)
       else
         nil
       end
@@ -416,9 +414,10 @@ defmodule PickEmWeb.PickEmLive.Secaucus do
   defp get_publish_at_date(%MatchUp{publish_at: publish_at}) do
     # TODO: FIGURE OUT HOW TO CATCH DATE STRING FORMATTING ISSUES
     publish_at
-    |> DateTime.add(-1 * PickEm.get_est_offset_seconds())
-    |> DateTime.to_iso8601()
-    |> String.trim_trailing(":00Z")
+    |> PickEm.to_new_york()
+    |> DateTime.to_naive()
+    |> NaiveDateTime.to_iso8601()
+    |> String.trim_trailing(":00")
   end
 
   defp get_games_for_date(date) do
@@ -483,7 +482,7 @@ defmodule PickEmWeb.PickEmLive.Secaucus do
   end
 
   def get_time_for_game(tip_datetime) do
-    DateTime.add(tip_datetime, -1 * PickEm.get_est_offset_seconds())
+    PickEm.to_new_york(tip_datetime)
     |> DateTime.to_time()
     |> Timex.format!("{h12}:{0m} {AM}")
   end

@@ -22,14 +22,12 @@ defmodule ClassicClips.PickEm do
   alias ClassicClips.PickEm.Season
   alias ClassicClips.Discord
 
-  @new_york_offset 5 * 60 * 60
-
   def get_matchup_for_day(%Date{} = date) do
-    lower_date = DateTime.new!(date, Time.from_iso8601!("03:59:59.00"))
-    upper_date = DateTime.new!(Date.add(date, 1), Time.from_iso8601!("03:59:59.00"))
+    lower_date = eastern_midnight_utc(date)
+    upper_date = eastern_midnight_utc(Date.add(date, 1))
 
     from(m in MatchUp,
-      where: m.tip_datetime > ^lower_date,
+      where: m.tip_datetime >= ^lower_date,
       where: m.tip_datetime < ^upper_date,
       limit: 1
     )
@@ -51,8 +49,7 @@ defmodule ClassicClips.PickEm do
   end
 
   def get_most_recent_matchup() do
-    upper_date =
-      DateTime.new!(Date.add(get_current_est_date(), 1), Time.from_iso8601!("03:59:59.00"))
+    upper_date = eastern_midnight_utc(Date.add(get_current_est_date(), 1))
 
     from(m in MatchUp,
       where: m.tip_datetime < ^upper_date,
@@ -68,10 +65,10 @@ defmodule ClassicClips.PickEm do
     tip_date =
       matchup
       |> Map.get(:tip_datetime)
-      |> DateTime.add(-1 * get_est_offset_seconds())
+      |> to_new_york()
       |> DateTime.to_date()
 
-    current_date = DateTime.utc_now() |> DateTime.add(-1 * get_est_offset_seconds())
+    current_date = DateTime.utc_now() |> to_new_york()
 
     case Date.compare(current_date, tip_date) do
       :eq -> true
@@ -82,10 +79,10 @@ defmodule ClassicClips.PickEm do
   def is_game_today?(%{game_time_utc: game_time_utc}) do
     tip_date =
       game_time_utc
-      |> DateTime.add(-1 * get_est_offset_seconds())
+      |> to_new_york()
       |> DateTime.to_date()
 
-    current_date = DateTime.utc_now() |> DateTime.add(-1 * get_est_offset_seconds())
+    current_date = DateTime.utc_now() |> to_new_york()
 
     case Date.compare(current_date, tip_date) do
       :eq -> true
@@ -672,15 +669,20 @@ defmodule ClassicClips.PickEm do
 
   def get_current_month_name do
     DateTime.utc_now()
-    |> DateTime.add(-1 * get_est_offset_seconds())
+    |> to_new_york()
     |> Map.get(:month)
     |> get_month_name()
   end
 
   def get_current_est_date do
     DateTime.utc_now()
-    |> DateTime.add(-1 * get_est_offset_seconds())
+    |> DateTime.shift_zone!("America/New_York", Tzdata.TimeZoneDatabase)
     |> DateTime.to_date()
+  end
+
+  defp eastern_midnight_utc(date) do
+    DateTime.new!(date, ~T[00:00:00], "America/New_York", Tzdata.TimeZoneDatabase)
+    |> DateTime.shift_zone!("Etc/UTC", Tzdata.TimeZoneDatabase)
   end
 
   def get_month_name(1), do: "january"
@@ -709,8 +711,14 @@ defmodule ClassicClips.PickEm do
   def get_nba_month_index("november"), do: 2
   def get_nba_month_index("december"), do: 3
 
-  def get_est_offset_seconds do
-    @new_york_offset
+  def to_new_york(datetime) do
+    DateTime.shift_zone!(datetime, "America/New_York", Tzdata.TimeZoneDatabase)
+  end
+
+  def new_york_to_utc(naive_datetime) do
+    naive_datetime
+    |> DateTime.from_naive!("America/New_York", Tzdata.TimeZoneDatabase)
+    |> DateTime.shift_zone!("Etc/UTC", Tzdata.TimeZoneDatabase)
   end
 
   @trace :create_matchup
@@ -735,7 +743,7 @@ defmodule ClassicClips.PickEm do
     favorite_team = Repo.get_by!(Team, id: favorite_id)
 
     {:ok, tip_datetime_utc, _} = DateTime.from_iso8601(game_tip_time)
-    tip_datetime_est = DateTime.add(tip_datetime_utc, -1 * get_est_offset_seconds())
+    tip_datetime_est = to_new_york(tip_datetime_utc)
 
     month = get_month_name(tip_datetime_est.month)
 

@@ -228,7 +228,7 @@ defmodule PickEmWeb.PickEmLive.Index do
   end
 
   defp get_time_for_game(%MatchUp{tip_datetime: tip_datetime}) do
-    DateTime.add(tip_datetime, -1 * ClassicClips.PickEm.get_est_offset_seconds())
+    ClassicClips.PickEm.to_new_york(tip_datetime)
     |> DateTime.to_time()
     |> Timex.format!("{h12}:{0m} {AM}")
   end

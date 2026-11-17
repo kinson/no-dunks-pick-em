@@ -20,7 +20,7 @@ defmodule ClassicClips.Discord do
 
     est_time =
       matchup.tip_datetime
-      |> DateTime.add(-1 * PickEm.get_est_offset_seconds())
+      |> PickEm.to_new_york()
       |> DateTime.to_time()
       |> Timex.format!("{h12}:{0m} {AM}")
 
